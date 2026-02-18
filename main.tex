@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt,fontset=ubuntu,oneside]{ctexbook}
+\documentclass[a4paper,11pt,oneside]{ctexbook}
 
 \usepackage{geometry}
 \usepackage{amsmath,amssymb,amsthm}
@@ -9,11 +9,9 @@
 
 \geometry{top=25mm,bottom=25mm,left=20mm,right=20mm}
 
-\ctexset{
-  chapter = {
-    beforeskip = 0pt,
-  }
-}
+\ctexset{chapter={beforeskip=0pt}}
+
+\setcounter{tocdepth}{1}
 
 \hypersetup{
   colorlinks=true,
@@ -23,6 +21,14 @@
 
 \newtheorem{theorem}{定理}[chapter]
 \newtheorem{definition}[theorem]{定义}
+
+\tikzset{
+  dot/.style={
+    circle, fill, inner sep=#1
+  },
+  dot/.default=1.5pt,
+  every label/.style={label distance=-1pt}
+}
 
 \begin{document}
 \frontmatter

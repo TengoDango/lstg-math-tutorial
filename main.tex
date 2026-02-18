@@ -1,0 +1,47 @@
+\documentclass[a4paper,11pt,fontset=ubuntu,oneside]{ctexbook}
+
+\usepackage{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\geometry{top=25mm,bottom=25mm,left=20mm,right=20mm}
+
+\ctexset{
+  chapter = {
+    beforeskip = 0pt,
+  }
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+}
+
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{definition}[theorem]{定义}
+
+\begin{document}
+\frontmatter
+
+\include{frontmatter/titlepage}
+\include{frontmatter/preface}
+
+\tableofcontents
+
+\mainmatter
+
+\include{coord/__init__}
+\include{linear/__init__}
+\include{motion/__init__}
+\include{curve/__init__}
+\include{3d/__init__}
+
+\appendix
+
+\include{appendix/luastg}
+
+\end{document}

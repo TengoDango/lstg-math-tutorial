@@ -8,6 +8,7 @@
 *.out
 *.synctex.gz
 *.fdb_latexmk
+*.auxlock
 *.acn
 *.acr
 *.alg
@@ -30,6 +31,8 @@
 *.stt
 *.xdy
 *.tdo
+*.md5
+*.dpth
 
 # Generated files
 *.dvi

@@ -1,35 +1,59 @@
-\documentclass[a4paper,11pt,oneside]{ctexbook}
+\documentclass[a4paper,12pt,oneside]{ctexbook}
 
 \usepackage{geometry}
-\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsmath,amssymb,amsthm,gensymb,braket}
+\usepackage{textcomp}
 \usepackage{tikz}
 \usepackage{tabularx}
 \usepackage{enumitem}
 \usepackage{hyperref}
 
+% 页面设置
 \geometry{top=25mm,bottom=25mm,left=20mm,right=20mm}
 
+% 章节样式
 \ctexset{chapter={beforeskip=0pt}}
+\setcounter{tocdepth}{2}
 
-\setcounter{tocdepth}{1}
-
+% 超链接
 \hypersetup{
   colorlinks=true,
   linkcolor=black,
   urlcolor=blue,
 }
 
+% 定理环境
 \newtheorem{theorem}{定理}[chapter]
 \newtheorem{definition}[theorem]{定义}
 
+% 绘图选项
 \tikzset{
   dot/.style={
     circle, fill, inner sep=#1
   },
   dot/.default=1.5pt,
-  every label/.style={label distance=-1pt}
+  every label/.style={label distance=-2pt},
+  every path/.style={thick},
+  background/.style={
+    fill=white,
+    inner sep=1pt,
+    outer sep=3.5pt,
+  }
 }
 
+% tikz缓存
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz-cache/]
+
+% 符号定义
+\renewcommand{\le}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+\newcommand{\cndots}{……}
+\newcommand{\comment}[1]{\textcolor{gray}{(\textsf{#1})}}
+\newcommand{\raw}[1]{\texttt{#1}}
+\newcommand{\spellcard}[1]{「#1」}
+
+% 文档
 \begin{document}
 \frontmatter
 

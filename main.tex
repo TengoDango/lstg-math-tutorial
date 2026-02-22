@@ -1,8 +1,9 @@
-\documentclass[a4paper,12pt,oneside]{ctexbook}
+\documentclass[a4paper,11pt,oneside]{ctexbook}
 
 \usepackage{geometry}
-\usepackage{amsmath,amssymb,amsthm,gensymb,braket}
-\usepackage{textcomp}
+\usepackage{amsmath,amssymb,amsthm,gensymb}
+\usepackage{textcomp,braket}
+\usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{tabularx}
 \usepackage{enumitem}
@@ -27,6 +28,7 @@
 \newtheorem{definition}[theorem]{定义}
 
 % 绘图选项
+\usetikzlibrary {intersections}
 \tikzset{
   dot/.style={
     circle, fill, inner sep=#1
@@ -48,6 +50,10 @@
 % 符号定义
 \renewcommand{\le}{\leqslant}
 \renewcommand{\ge}{\geqslant}
+\newcommand{\Dist}{\texttt{Dist}}
+\newcommand{\Angle}{\texttt{Angle}}
+
+% 文本定义
 \newcommand{\cndots}{……}
 \newcommand{\comment}[1]{\textcolor{gray}{(\textsf{#1})}}
 \newcommand{\raw}[1]{\texttt{#1}}
@@ -55,6 +61,7 @@
 
 % 文档
 \begin{document}
+% \begin{sloppypar}
 \frontmatter
 
 \include{frontmatter/titlepage}
@@ -73,5 +80,6 @@
 \appendix
 
 \include{appendix/luastg}
-
+\include{appendix/answer}
+% \end{sloppypar}
 \end{document}

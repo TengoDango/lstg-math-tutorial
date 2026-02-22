@@ -1,1 +1,399 @@
-\section{勾股定理与三角函数} \label{sec:triangle}
+\section{直角三角形的边角关系} \label{sec:triangle}
+
+在直角坐标相关的几何问题中, 直角三角形有着重要的应用.
+在弹幕中我们关注``长度''和``方向''两类几何属性,
+在直角三角形中对应``边''和``角''.
+这一节我们将探索直角三角形的各个边与角之间有怎样的联系.
+
+如图\ref{fig:triangle},
+在直角三角形$OAP$中, 点$O,A,P$称为直角三角形的\emph{顶点},
+构成直角的两条线段$OA,AP$称为\emph{直角边},
+另一条线段$OP$称为\emph{斜边},
+三个角 (这次不是任意角)
+$\angle{O}$ (或$\angle{AOP}$),
+$\angle{A}$ (或$\angle{OAP}$),
+$\angle{P}$ (或$\angle{OPA}$)
+称为三角形的\emph{内角}, 有两个锐角和一个直角.
+由于三角形的内角和为180\degree, 总有
+\[
+  \angle{A} = 90\degree,\quad
+  \angle{P} = 90\degree - \angle{O}.
+\]
+所以我们只考察一个内角$\angle{O}$即可.
+
+设图\ref{fig:triangle}
+中直角三角形的直角边长度为
+$|OA|=x$, $|AP|=y$, 斜边长度为$|OP|=r$,
+内角$\angle{O}=\theta$.
+我们对直角三角形边角关系的探讨将围绕
+$x,y,r,\theta$这四个量进行.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (2,0);
+    \coordinate (P) at (2,1);
+
+    \draw[help lines,-latex] (-0.5,0) -- (2.5,0);
+    \draw[help lines,-latex] (0,-0.5) -- (0,1.2);
+
+    \draw (O) -- (A) -- (P) -- cycle;
+    \node[dot,label={below left:$O$}] at (O) {};
+    \node[dot,label={below:$A$}] at (A) {};
+    \node[dot,label={right:$P$}] at (P) {};
+    \node[above right] at (1,0) {$x$};
+    \node[left] at (2,0.5) {$y$};
+    \node[above] at (1,0.5) {$r$};
+
+    \draw (4mm,0) arc (0:{atan(0.5)}:4mm)
+    node[right,pos=0.7] {$\theta$};
+  \end{tikzpicture}
+  \caption{直角三角形}
+  \label{fig:triangle}
+\end{figure}
+
+\subsection{勾股定理}
+
+勾股定理描述了直角三角形三条边的长度之间的关系.
+该定理指出, 已知直角三角形的任意两条边的长度,
+可以计算出第三条的边的长度.
+
+勾股定理的文字表述为:
+直角三角形的\emph{两条直角边长度的平方和}
+等于\emph{斜边长度的平方}.
+具体到图\ref{fig:triangle}的直角三角形$OAP$,
+勾股定理表述为 \[ x^2 + y^2 = r^2. \]
+
+勾股定理最常见的应用场景是计算两点之间的距离.
+在LuaSTG中, 我们可以用函数
+$\Dist(x_1,y_1,x_2,y_2)$
+计算点$(x_1,y_1),(x_2,y_2)$之间的距离,
+而\Dist 函数的内部原理就是勾股定理.
+如图\ref{fig:dist-func},
+平面上有两点$A=(x_1,y_1)$, $B=(x_2,y_2)$,
+作图示直角三角形$ABC$, $AC$沿水平方向, $BC$沿竖直方向.
+由$A,B$坐标可得两直角边的长度
+\[
+  |AC| = |x_1 - x_2|,\
+  |BC| = |y_1 - y_2|.
+\]
+然后由勾股定理即可求出
+\begin{align*}
+  |AB| & = \sqrt{|AC|^2 + |BC|^2}                \\
+       & = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}.
+\end{align*}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (-2,1);
+    \coordinate (C) at (-2,0);
+    \draw[fill=black!10] (A) -- (B) -- (C) -- cycle;
+
+    \node[
+      dot,label={below right:$A=(x_1,y_1)$}
+    ] at (A) {};
+    \node[
+      dot,label={left:$B=(x_2,y_2)$}
+    ] at (B) {};
+    \node[
+      dot,label={below left:$C$}
+    ] at (C) {};
+
+    \node[below] at (-1,0) {$|x_1 - x_2|$};
+    \node[left] at (-2,0.5) {$|y_1 - y_2|$};
+    \node[above right] at (-1,0.5) {$\Dist(x_1,y_1,x_2,y_2)$};
+  \end{tikzpicture}
+  \caption{两点距离}
+  \label{fig:dist-func}
+\end{figure}
+
+为了方便表述, 本教程引入LuaSTG的\Dist 函数,
+用$\Dist(x_1,x_2,y_1,y_2)$表示点
+$(x_1,y_1)$, $(x_2,y_2)$之间的距离;
+用$\Dist(x,y)$
+\footnote{虽然LuaSTG的\Dist 函数其实不接受只输入两个数值}
+表示点$(x,y)$与原点的距离,
+即$\Dist(x,y) = \Dist(0,0,x,y)$.
+
+\subsection{三角函数}
+
+三角函数描述了方位角与坐标比例的关系,
+角度为锐角时, 这也对应直角三角形的内角与三边长度比例的联系.
+
+具体地, 对于图\ref{fig:triangle}的直角三角形$OAP$,
+若固定$\theta$为一个定值, 我们会发现,
+无论三条边长度$x,y,r$如何变化,
+$x,y,r$始终某种固定的比例关系,
+而这个比例由内角$\theta$决定.
+设平面上有一点$P=(x_p,y_p)$,
+保持射线$OP$的方向不变, 移动点$P$,
+我们会发现$x_p,y_p$也有一种固定的比例关系,
+由$OP$方向决定.
+
+\begin{definition}[三角函数]
+  如图\ref{fig:trig-func},
+  单位圆 (圆心为原点, 半径为1的圆)
+  上有一点$P=(x_p,y_p)$, 相对原点的方位角为
+  $\angle{xOP}=\theta$.
+  换言之, 点$P$的极坐标为$\braket{1,\theta}$.
+  根据点$P$的坐标, 我们定义以下函数:
+
+  \begin{enumerate}[label=(\alph*)]
+    \item 正弦函数$\sin(\theta) = y_p$,
+    \item 余弦函数$\cos(\theta) = x_p$,
+    \item 正切函数$\tan(\theta) = y_p / x_p$.
+  \end{enumerate}
+
+  这三个函数合称三角函数.
+  虽然它们的倒数也称为三角函数, 但我们用不到所以就不管了.
+\end{definition}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \draw[-latex] (-1.3,0) -- (1.3,0)
+    node[right] {$x$};
+    \draw[-latex] (0,-1.3) -- (0,1.3)
+    node[left] {$y$};
+    \draw (0,0) circle (1)
+    node[below right] {$O$};
+
+    \draw (0,0) -- (240:1.3);
+    \node[
+      dot,label={[background]above:$P = (-0.5,-0.8660)$}
+    ] at (240:1) {};
+    \draw[->] (0.2,0) arc (0:240:0.2)
+    node[above,pos=0.5,background] {$\theta=240\degree$};
+
+    \node[right,draw,align=left] at (2,0) {
+      $\cos\theta = -0.5$ \\
+      $\sin\theta \approx -0.8660$ \\
+      $\tan\theta \approx 1.7321$
+    };
+  \end{tikzpicture}
+  \caption{三角函数}
+  \label{fig:trig-func}
+\end{figure}
+
+我们在初中学习平面几何时也有一套三角函数定义,
+是用直角三角形的边长比例定义的.
+这两种定义是相通的.
+在图\ref{fig:triangle}中 (我特意画了一个坐标系),
+直角三角形$OAP$的三边长度$x,y,r$有如下的比例关系:
+\[x : y : r = \cos\theta : \sin\theta : 1.\]
+
+\subsection{直角坐标与极坐标的转换}
+
+如图\ref{fig:default-coord},
+在平面上同时建立直角坐标系和极坐标系,
+直角坐标系和极坐标系的原点和极点重合,
+单位长度相同, $x$轴正方向为极轴方向.
+平面上的每一个点同时具有直角坐标和极坐标.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=0.8]
+    \def\len{3.7}
+    \draw[-latex,very thick] (-\len,0) -- (\len,0)
+    node[right] {$x$};
+    \draw[-latex,very thick] (0,-\len) -- (0,\len)
+    node[left] {$y$};
+
+    \begin{scope}[help lines]
+      \draw (45:3.5) node[right] {$45\degree$}
+      -- (-135:3.5) node[left] {$-135\degree$};
+      \draw (-45:3.5) node[right] {$-45\degree$}
+      -- (135:3.5) node[left] {$135\degree$};
+      \foreach \r in {1,2,3}
+      \draw (0,0) circle (\r);
+    \end{scope}
+
+    \foreach \x in {-3,-2,-1,1,2,3} {
+        \node[below left] at (\x,0) {$\x$};
+        \node[below left] at (0,\x) {$\x$};
+      }
+    \node[below left,background] at (0,0) {$O$};
+
+    \node[dot] at (1.5,1) {};
+    \node[background,right] at (1.5,1)
+    {$P = (x,y) = \braket{r,\theta}$};
+  \end{tikzpicture}
+  \caption{默认直角坐标系与极坐标系}
+  \label{fig:default-coord}
+\end{figure}
+
+\subsubsection{极坐标 \textrightarrow 直角坐标}
+
+设平面上一点$P$的直角坐标为$(x,y)$,
+极坐标为$\braket{r,\theta}$.
+根据三角函数的定义, 如果$r = 1$,
+那么有$x = \cos\theta, y = \sin\theta$.
+根据点$P$到原点的距离$r$做等比放缩,
+我们容易得到将极坐标转换为直角坐标的公式:
+\begin{align*}
+  x & = r \cos\theta, \\
+  y & = r \sin\theta.
+\end{align*}
+
+\subsubsection{直角坐标 \textrightarrow 极坐标}
+
+反过来的转换则要复杂一些.
+用勾股定理可以求解极径$r = \sqrt{x^2 + y^2}$.
+在弹幕制作中, 直接调用$\Dist(0,0,x,y)$是更实际的选择.
+至于极角$\theta$, 我们目前知道如果不为原点,
+根据直角坐标$(x,y)$可以确定极角的一个等价取值.
+有些弹设会考虑用反三角函数进行求解,
+但是由于反三角函数的值域问题
+(我们会在\ref{sec:arc-func}节讲解),
+直接调用LuaSTG的\Angle 函数是一个更方便更正确的做法.
+也就是:
+\begin{align*}
+  r      & = \sqrt{x^2 + y^2}, \\
+  \theta & = \Angle(0,0,x,y).
+\end{align*}
+
+\section*{习题}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1]
+    \draw (0,0) node[
+      dot,label={left:$O$}
+    ]{} circle (1);
+    \foreach \a in {20,40,...,360}
+    \node[dot] at (\a:1) {};
+    \draw[->] (0,0) -- (40:1)
+    node[above right]{$P$};
+  \end{tikzpicture}
+  \caption{龙纹弹示意图}
+  \label{fig:long-wen-dan}
+\end{figure}
+
+\begin{enumerate}
+  \item \comment{龙纹弹}
+        龙纹弹也算是新人弹设的热门复刻项目了.
+        为了让子弹始终围成一个圆形, zun有自己的谜之方法,
+        而我们只需要每帧进行一个坐标的同步.
+        对我们而言, 圆心的运动是简单的,
+        设置一个隐形obj作为圆心进行直线运动,
+        圆的半径等参数也可以由这个隐形obj更新.
+        圆上的每个子弹读取圆心obj提供的圆心坐标, 半径等参数,
+        更新自己的坐标, 从而保持自己始终在圆上.
+
+        如图\ref{fig:long-wen-dan},
+        设有一个子弹$P$, 在某一帧,
+        它对应的圆心坐标为$(x_0,y_0)$,
+        圆的半径为$R$, 该子弹相对于圆心的方位角为$\alpha$,
+        求该帧子弹$P$的坐标.
+
+  \item 证明: $(\cos\theta)^2 + (\sin\theta)^2 = 1$.
+        (提示: 三角函数的定义)
+
+  \item \comment{二维旋转公式v1*}
+        设平面上有一点$(x,y)$, 将该点绕原点旋转$\phi$角
+        (以逆时针为正方向), 得到的点的坐标$(x',y')$怎么表示?
+        这就是二维旋转公式要解决的问题,
+        它的标准形式为:
+        \begin{align*}
+          x' & = x \cos\phi - y \sin\phi, \\
+          y' & = x \sin\phi + y \cos\phi.
+        \end{align*}
+        我个人比较讨厌这个公式, 因为这个公式很容易记错,
+        很多弹设做的弹幕效果不对在群里提问,
+        我们看了半天结果是旋转公式写错了, 非常折磨.
+        最好是能够自己写一个lua函数实现这个旋转公式,
+        需要旋转的时候统一调用函数, 以防止偶然写错.
+
+        在\ref{sec:affine}节的习题会探讨二维旋转公式的
+        另一种形式, 和我一样不想记这个标准形式的可以看一看.
+
+        这一次的推导基于极坐标直角坐标转换和三角函数的和差角公式.
+        设旋转前点$(x,y)$的极坐标为$\braket{r,\theta}$,
+        显然, 旋转后的极坐标为$\braket{r,\theta+\phi}$.
+        请你根据以下的两条公式, 补全二维旋转公式的推导过程:
+        \begin{align*}
+          \cos(\theta+\phi) & =
+          \cos\theta\cos\phi - \sin\theta\sin\phi, \\
+          \sin(\theta+\phi) & =
+          \cos\theta\sin\phi + \sin\theta\cos\phi.
+        \end{align*}
+
+  \item \comment{激光与圆相交***}
+        有一名弹设正在尝试新的弹幕样式,
+        他设置了一些直线激光, 在自机处设置了一个圆形的``保护罩''.
+        他希望当激光打到保护罩上时, 在激光与保护罩的交点生成子弹,
+        同时应当把激光的终点设置到交点上 (通过控制激光的长度可以实现).
+        具体的弹幕实现逻辑可能很复杂, 但简而言之他需要计算激光与圆的相交情况.
+
+        图\ref{subfig:laser-circle-1}
+        展示了他想实现的大致效果.
+        在LuaSTG中, 我们容易获取激光的起点坐标, 朝向, 长度,
+        以及圆形保护罩的圆心坐标, 半径,
+        由这些信息足够确定激光与圆的相交情况.
+
+        为了方便做进一步的计算,
+        他以激光的起点为原点/极点, 激光朝向为$x$轴正方向/0\degree 方向,
+        建立直角坐标系和极坐标系, 如图\ref{subfig:laser-circle-2}所示,
+        $x$轴正半轴对应激光, 圆$O'$对应保护罩.
+
+        \begin{figure}[htbp]
+          \centering
+
+          \begin{subfigure}{0.4\textwidth}
+            \centering
+            \begin{tikzpicture}[scale=3.5/384]
+              \draw (-192,-224) rectangle (192,224);
+              \fill[gray!50] (0,-150) circle (60);
+              \draw[->] (-90,150) node[dot]{} -- +(-80:300-30);
+            \end{tikzpicture}
+            \caption{}
+            \label{subfig:laser-circle-1}
+          \end{subfigure}
+          \begin{subfigure}{0.5\textwidth}
+            \centering
+            \begin{tikzpicture}[scale=1.5]
+              \draw[-latex] (0,-0.5) -- (0,2) node[left] {$y$};
+              \draw[-latex,name path=line]
+              (-0.5,0) -- (4,0) node[right] {$x$};
+              \draw[name path=circle,name=oo]
+              (2,0.6) circle (0.9);
+
+              \draw (0,0) node[dot,label={below left:$O$}]{}
+              -- (2,0.6) node[dot,label={right:$O'$}]{};
+              \draw (4mm,0) arc (0:15:4mm)
+              node[above] {$\alpha$};
+
+              \draw[name intersections={of=line and circle}]
+              (intersection-1) node[dot,label={below left:$A$}]{}
+              (intersection-2) node[dot,label={below right:$B$}]{};
+            \end{tikzpicture}
+            \caption{}
+            \label{subfig:laser-circle-2}
+          \end{subfigure}
+
+          \caption{激光与圆相交}
+        \end{figure}
+
+        在新的坐标系下, 可以获取哪些信息呢? 这时激光的表示是非常简单的:
+        起点为原点, 终点在$x$轴正半轴上, 长度等于终点的横坐标.
+        保护罩圆心的极坐标比较容易获取:
+        极径可以由$\Dist(激光,保护罩)$计算,
+        极角可以由$(\Angle(激光,保护罩) - 激光朝向)$计算.
+
+        设某一时刻, 保护罩的极坐标为$O'=\braket{L,\alpha}$,
+        保护罩的半径为$R$. 请帮助他解决以下问题:
+
+        \begin{enumerate}[label=(\alph*)]
+          \item 若$L>R$, 那么$L,R,\alpha$满足什么条件时,
+                圆$O'$与$x$轴\emph{正半轴}有交点?
+          \item 若$L>R$, 且圆$O'$与$x$轴正半轴有$A,B$两个交点,
+                且点$A$离原点更近,
+                即图\ref{subfig:laser-circle-2}所示情况.
+                求线段$OA$的长度.
+          \item 若$L<R$, 那么圆$O'$与$x$轴正半轴一定有一个交点,
+                设该交点为$A$. 求线段$OA$的长度.
+        \end{enumerate}
+\end{enumerate}

@@ -15,6 +15,7 @@
 % 章节样式
 \ctexset{chapter={beforeskip=0pt}}
 \setcounter{tocdepth}{2}
+\numberwithin{figure}{section}
 
 % 超链接
 \hypersetup{
@@ -24,7 +25,7 @@
 }
 
 % 定理环境
-\newtheorem{theorem}{定理}[chapter]
+\newtheorem{theorem}{定理}[section]
 \newtheorem{definition}[theorem]{定义}
 
 % 绘图选项
@@ -35,11 +36,14 @@
   },
   dot/.default=1.5pt,
   every label/.style={label distance=-2pt},
-  every path/.style={thick},
   background/.style={
     fill=white,
     inner sep=1pt,
     outer sep=3.5pt,
+  },
+  every picture/.append code={
+    \let\olddraw\draw
+    \renewcommand{\draw}{\olddraw[thick]}
   }
 }
 

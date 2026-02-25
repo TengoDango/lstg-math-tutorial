@@ -185,6 +185,184 @@ $x,y,r$始终某种固定的比例关系,
 直角三角形$OAP$的三边长度$x,y,r$有如下的比例关系:
 \[x : y : r = \cos\theta : \sin\theta : 1.\]
 
+\subsection{反三角函数与\raw{Angle}函数}
+
+运用三角函数, 我们可以由角度信息推导长度和坐标信息.
+那么我们如何反过来, 由长度和坐标信息推导角度信息呢?
+这就要用到反三角函数.
+
+不严谨地说, 我们可以把反三角函数看作三角函数的``逆向操作''.
+假设我们问``60\degree 的余弦值 ($\cos$) 是多少'', 这是三角函数.
+那么我们反过来问: 哪一个角的余弦值是0.5? 这就是反三角函数.
+每个三角函数对应一个反三角函数,
+对于三角函数$\sin$, $\cos$, $\tan$,
+数学上把对应的反三角函数记作
+$\arcsin$, $\arccos$, $\arctan$,
+而在编程中这些反三角函数命名为
+\raw{asin}, \raw{acos}, \raw{atan}.
+
+但是这个``逆向操作''需要一些特殊的处理才能成立.
+当我们问``哪一个角的$\cos$值是0.5?'',
+我们会发现答案有无数个:
+$60\degree, -60\degree$, 以及它们的所有等价角.
+作为一个函数必须要有\emph{确定性},
+即, 接受相同的输入时, 必须有相同的输出
+\footnote{
+  编程上的函数没有这个限制, 比如随机数生成函数,
+  但数学上一般是这样要求的, 这样才能进行确定的计算.
+}.
+为了让``反三角函数''具有确定性,
+数学家人为地限制了每个反三角函数的输出范围.
+
+以$\arccos$为例, 如图\ref{subfig:arccos}
+要找一个角$\theta$使它的余弦值$\cos\theta$为$x_0$,
+我们只需要在单位圆上找到一个点使得它的横坐标为$x_0$,
+这样的点可能有两个, 我们取$x$轴上方的点,
+把它相对于原点的方位角作为$\arccos x_0$的输出.
+
+于是我们规定, $\arccos$的值域\footnote{输出数值的范围}为
+$0\degree \le \arccos x_0 \le 180\degree$,
+此时对于每一个$-1 \le x_0 \le 1$,
+$\arccos x_0$都会输出唯一的角度.
+
+类似地, 如图\ref{subfig:arcsin},
+要计算$\arcsin{y_0}$ ($-1 \le y_0 \le 1$),
+我们在单位圆上找一个点使得它的纵坐标为$y_0$,
+这样的点也可能有两个, 我们取$y$轴右侧的点相对原点的方位角
+作为$\arcsin{y_0}$的输出.
+我们规定, $\arcsin$的值域为
+$-90\degree \le \arcsin{y_0} \le 90\degree$.
+
+如图\ref{subfig:arctan},
+在平面上取一点$(1,k)$, 该点相对原点的方位角$\theta$
+满足$\tan\theta = k$.
+规定取$-90\degree < \theta < 90\degree$
+的角度作为$\arctan{k}$的输出.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=2]
+      \clip (-1.7,-0.3) rectangle (1.7,1.7);
+      \foreach \x in {-0.9,-0.6,...,0.9} {
+          \draw[help lines] (\x,0) -- (\x,1.2);
+          \draw[help lines] (0,0) -- (\x,{sqrt(1-\x*\x)});
+        }
+
+      \def\x{-0.6};
+      \fill[gray!50] (0,0) -- (0.15,0)
+      arc (0:{acos(\x)}:0.15) -- cycle;
+
+      \draw[-latex] (-1.5,0) -- (1.5,0) node[right] {$x$};
+      \draw[-latex] (0,-1.5) -- (0,1.5) node[left] {$y$};
+      \draw (0,0) circle (1) node[below left] {$O$};
+
+      \draw (\x,0) node[below] {$x_0$}
+      -- (\x,1.2) node[above] {$x = x_0$};
+      \draw (0,0) -- (\x,{sqrt(1-\x*\x)}) node[dot] {};
+      \draw (0.15,0) arc (0:{acos(\x)}:0.15)
+      node[above right,background,pos=0.5,outer sep=1pt]
+        {$\theta=\arccos{x_0}$};
+    \end{tikzpicture}
+    \caption{$\arccos$函数}
+    \label{subfig:arccos}
+  \end{subfigure}
+  \begin{subfigure}{0.28\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=2]
+      \clip (-0.3,-1.7) rectangle (1.7,1.7);
+      \foreach \x in {-0.9,-0.6,...,0.9} {
+          \draw[help lines] (0,\x) -- (1.2,\x);
+          \draw[help lines] (0,0) -- ({sqrt(1-\x*\x)},\x);
+        }
+
+      \def\x{-0.6};
+      \fill[gray!50] (0,0) -- (0.15,0)
+      arc (0:{asin(\x)}:0.15) -- cycle;
+
+      \draw[-latex] (-1.5,0) -- (1.5,0) node[right] {$x$};
+      \draw[-latex] (0,-1.5) -- (0,1.5) node[left] {$y$};
+      \draw (0,0) circle (1) node[below left] {$O$};
+
+      \draw (0,\x) node[left] {$y_0$}
+      -- (1.2,\x) node[below] {$y = y_0$};
+      \draw (0,0) -- ({sqrt(1-\x*\x)},\x) node[dot] {};
+      \draw (0.15,0) arc (0:{asin(\x)}:0.15)
+      node[right,background] at (0.3,-0.15)
+      {$\theta=\arcsin{y_0}$};
+    \end{tikzpicture}
+    \caption{$\arcsin$函数}
+    \label{subfig:arcsin}
+  \end{subfigure}
+  \begin{subfigure}{0.28\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=2]
+      \clip (-0.3,-1.7) rectangle (1.7,1.7);
+      \foreach \x in {-1.2,-0.9,...,1.2001} {
+          \draw[help lines] (0,0) -- (1,\x);
+        }
+      \draw[help lines] (1,-1.4) -- (1,1.4);
+
+      \def\x{0.9};
+      \fill[gray!50] (0,0) -- (0.15,0)
+      arc (0:{atan(\x)}:0.15) -- cycle;
+
+      \draw[-latex] (-1.5,0) -- (1.5,0) node[right] {$x$};
+      \draw[-latex] (0,-1.5) -- (0,1.5) node[left] {$y$};
+      \draw (0,0) circle (1) node[below left] {$O$};
+
+      \draw (0,0) -- (1,\x)
+      node[dot,label={right:$(1,k)$}] {};
+      \draw (0.15,0) arc (0:{atan(\x)}:0.15)
+      node[right,background] at (0.25,0.15)
+      {$\theta = \arctan{k}$};
+    \end{tikzpicture}
+    \caption{$\arctan$函数}
+    \label{subfig:arctan}
+  \end{subfigure}
+  \caption{反三角函数}
+\end{figure}
+
+\subsubsection{反三角函数的值域问题}
+
+在弹幕制作中使用反三角函数主要是为了根据坐标求解角度,
+由于任意角的特性, 只要求出的角度范围能覆盖连续的360\degree 范围,
+就可以满足一般的应用需求.
+
+但是, 反三角函数只能覆盖180\degree 的范围,
+这就导致我们直接用反三角函数求解角度时容易出错.
+例如, 假设我们用$\arctan(y/x)$求点$(x,y)$相对原点的方位角,
+那么当点$(x,y)$在$y$轴左侧时就会得到错误的结果
+(甚至当该点在$y$轴上时无法计算$y/x$).
+
+为了能够正确计算角度, 我们需要用$x,y$两个数值预先确定角度范围,
+用这个角度范围来修正反三角函数的输出结果.
+比如各编程语言提供的\raw{atan2}函数,
+它的大致原理是这样的:
+\[
+  \raw{atan2}(y,x)=
+  \begin{cases}
+    \arctan(y/x),            & x>0,       \\
+    \arctan(y/x)+180\degree, & y\ge0,x<0, \\
+    \arctan(y/x)-180\degree, & y<0,x<0,   \\
+    90\degree,               & y>0,x=0,   \\
+    -90\degree,              & y<0,x=0,   \\
+    未定义,                  & y=0,x=0.
+  \end{cases}
+\]
+
+为了方便表述, 我们引入LuaSTG的\Angle 函数
+\footnote{
+  \Angle 函数的值域为
+  $-180\degree < \theta \le 180\degree$.
+},
+用$\Angle(x_1,y_1,x_2,y_2)$
+\footnote{虽然LuaSTG的\Angle 函数不能只输入两个数值}
+表示点$(x_2,y_2)$相对$(x_1,y_1)$的方位角;
+另外定义, $\Angle(x,y)$表示点$(x,y)$相对原点的方位角,
+即$\Angle(x,y) = \Angle(0,0,x,y)$.
+
 \subsection{直角坐标与极坐标的转换}
 
 如图\ref{fig:default-coord},
@@ -246,16 +424,15 @@ $x,y,r$始终某种固定的比例关系,
 至于极角$\theta$, 我们目前知道如果不为原点,
 根据直角坐标$(x,y)$可以确定极角的一个等价取值.
 有些弹设会考虑用反三角函数进行求解,
-但是由于反三角函数的值域问题
-(我们会在\ref{sec:arc-func}节讲解),
+但是由于反三角函数的值域问题,
 直接调用LuaSTG的\Angle 函数是一个更方便更正确的做法.
 也就是:
 \begin{align*}
-  r      & = \sqrt{x^2 + y^2}, \\
-  \theta & = \Angle(0,0,x,y).
+  r      & = \Dist(x,y) = \sqrt{x^2 + y^2}, \\
+  \theta & = \Angle(x,y).
 \end{align*}
 
-\section*{习题}
+\subsection*{习题}
 
 \begin{figure}[htbp]
   \centering
@@ -320,6 +497,60 @@ $x,y,r$始终某种固定的比例关系,
           \sin(\theta+\phi) & =
           \cos\theta\sin\phi + \sin\theta\cos\phi.
         \end{align*}
+
+  \item \comment{方形造形术**}
+        方形造形术是一个经典的异形开花弹案例.
+        一个基本的异形开花弹, 各个子弹有相同的发弹点, 且都做匀速直线运动.
+        这样的异形开花弹保持形状的背后思想是,
+        把子弹的速度当作平面上的点来看待.
+        如图\ref{fig:square-danmaku},
+        当各子弹的速度对应点构成方形时, 异形开花弹就会保持方形.
+
+        \begin{figure}[htbp]
+          \centering
+          \begin{tikzpicture}[scale=1.5]
+            \draw[-latex] (-1.5,0) -- (1.5,0)
+            node[right] {$x$};
+            \draw[-latex] (0,-1.5) -- (0,1.5)
+            node[left] {$y$};
+            \node[below left] at (0,0) {$O$};
+
+            \def\a{15};
+
+            \begin{scope}[scale=1,rotate=\a]
+              \draw[help lines] (-1,-1) rectangle (1,1);
+              \node[left] at (-1,1) {$C$};
+              \node[left] at (-1,-1) {$D$};
+              \foreach \i in {0,1,2,5,8} {
+                  \node[dot] at (1,-1+\i*2/8) {};
+                }
+              \foreach \i in {0,1,8} {
+                  \node[right] at (1,-1+\i*2/8) {$B_\i$};
+                }
+              \draw[->] (0,0) -- (1.5,0)
+              node[right] {$\alpha$};
+              \draw[->,scale=0.95] (0,0) -- (1,-1+5*2/8)
+              node[right] {$B_i$}
+              node[above,pos=0.5] {$v_i$};
+            \end{scope}
+          \end{tikzpicture}
+          \caption{方形开花弹示意图}
+          \label{fig:square-danmaku}
+        \end{figure}
+
+        设图\ref{fig:square-danmaku}中
+        方形$B_0B_8CD$的中心为原点, 边长为$2v_0$
+        (使得方形开花弹以$v_0$的整体速度扩散),
+        整体倾角为$\alpha$, $B_0,...,B_8$是一组间距相等的点.
+
+        \begin{enumerate}[label=(\alph*)]
+          \item 若倾角$\alpha=0\degree$,
+                求点$B_i$ ($i=0,1,...,8$)
+                的直角坐标$(v_{xi},v_{yi})$.
+          \item 若倾角$\alpha\neq0\degree$,
+                求点$B_i$ ($i=0,1,...,8$)
+                的极坐标$\braket{v_i,\theta_i}$.
+        \end{enumerate}
 
   \item \comment{激光与圆相交***}
         有一名弹设正在尝试新的弹幕样式,

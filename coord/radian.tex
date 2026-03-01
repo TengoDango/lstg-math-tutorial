@@ -1,1 +1,62 @@
 \section{角度制与弧度制} \label{radian}
+
+在LuaSTG中, 我们使用\emph{角度制}衡量角的大小.
+角度制将一条射线线端点旋转一圈形成的角等分为360份,
+每一份的大小定义为1\degree.
+角度制由于发展早, 容易理解, 便于测量计算而得到广泛使用.
+然而在涉及到弧长的应用情景, 角度制将显得烦琐.
+所以我们引入另一种度量角的体系: 弧度制.
+
+\subsection{弧度制的定义}
+
+弧度制来源于对弧长的研究. 如图\ref{fig:arc},
+圆$O$的半径为$r$, 圆心角$\alpha$对应弧$AB$的长度为$l$.
+在角度制下, 弧长$l$与半径$r$有如下关系:
+\[
+  l = \dfrac{\pi}{180\degree} \alpha\cdot r.
+\]
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \draw (0,0) circle (1);
+    \draw (75:1) node[dot,label={above:$A$}] {}
+    -- (0,0) node[dot,label={below:$O$}] {}
+    node[right,pos=0.5] {$r$}
+    -- (105:1) node[dot,label={above:$B$}] {};
+    \node[above] at (0,1) {$l$};
+    \draw (75:4mm) arc (75:105:4mm)
+    node[pos=0.5,above] {$\alpha$};
+  \end{tikzpicture}
+  \caption{圆弧}
+  \label{fig:arc}
+\end{figure}
+
+角度制下的弧长计算公式就这样包含了一个常数$\pi / 180\degree$,
+这看起来非常的别扭. 所以弧度制大手一挥,
+直接把角$\alpha$的大小定义为弧长与半径的比例$l/r$,
+称为$\alpha$的弧度值.
+在弧度制下, 弧长公式可以简单地表示为$l=\alpha\cdot r$,
+这种简化是我们引入弧度制的主要原因.
+
+角度值的单位 度(\degree) 是不能省略的,
+但弧度值定义为弧长除以半径, 是完全没有单位的.
+不过有时为了强调它表示一个角的大小, 可以附上单位rad.
+比如, 1和1\,rad都表示弧度值为1
+(大约相当于57.3\degree).
+
+\subsection{弧度制与角度制的转换}
+
+弧度制和角度制的转换是非常简单的.
+一条射线线端点旋转一圈形成的角,
+它的角度值为360\degree, 而弧度值是半径为1的圆的周长, 即$2\pi$,
+于是有$360\degree = 2\pi$.
+其他角度的转换都可以由该式等比放大/缩小得到.
+
+比如要把30\degree 转换为弧度值, 那么有
+$30\degree = 30\degree\cdot\dfrac{2\pi}{360\degree}
+= \dfrac{\pi}{6}$.
+
+Lua语言提供了角度值与弧度值的转换函数.
+\raw{math.deg(x)}将弧度值$x\,\text{rad}$转换为对应的角度值,
+\raw{math.rad(x)}将角度值$x\degree$转换为对应的弧度值.

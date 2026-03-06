@@ -12,12 +12,12 @@
 
 \subsubsection{加减法}
 
-设向量$\vec{a}=(a_1,...,a_n),\vec{b}=(b_1,...,b_n)$.
+设向量$\vec{a}=(a_1,\dots,a_n),\vec{b}=(b_1,\dots,b_n)$.
 $\vec{a}$和$\vec{b}$的加法记作$\vec{a}+\vec{b}$,
 减法记作$\vec{a}-\vec{b}$, 计算方法为
 \begin{align*}
-  \vec{a}+\vec{b} & = (a_1+b_1,...,a_n+b_n), \\
-  \vec{a}-\vec{b} & = (a_1-b_1,...,a_n-b_n). \\
+  \vec{a}+\vec{b} & = (a_1+b_1,\dots,a_n+b_n), \\
+  \vec{a}-\vec{b} & = (a_1-b_1,\dots,a_n-b_n). \\
 \end{align*}
 
 几何上, 向量的加法对应有向线段的首尾相接.
@@ -70,11 +70,11 @@ $\vv{AB} = \vec{b} - \vec{a}$.
 
 \subsubsection{数乘}
 
-向量$\vec{a}=(a_1,...,a_n)$和数值$\lambda$的乘法称为数乘,
+向量$\vec{a}=(a_1,\dots,a_n)$和数值$\lambda$的乘法称为数乘,
 沿用乘法的记法, 记作$\lambda\cdot\vec{a}$,
 可以省略乘号, 记作$\lambda\vec{a}$. 计算方法为
 \[
-  \lambda\vec{a} = (\lambda a_1,...,\lambda a_n).
+  \lambda\vec{a} = (\lambda a_1,\dots,\lambda a_n).
 \]
 
 向量数乘在几何上对应有向线段的伸缩.
@@ -113,12 +113,12 @@ $\vec{a}$和$\lambda\vec{a}$是平行(共线)的, 并且
 如何根据直线上的两个已知点的坐标, 计算直线上其他点的坐标?
 
 \begin{theorem}[线性插值]
-  设$n$维空间中有两个不重合的点$A=(a_1,...,a_n),B=(b_1,...,b_n)$.
-  对于空间中的任一点$C=(c_1,...,c_n)$,
+  设$n$维空间中有两个不重合的点$A=(a_1,\dots,a_n),B=(b_1,\dots,b_n)$.
+  对于空间中的任一点$C=(c_1,\dots,c_n)$,
   点$C$在直线$AB$上, 当且仅当存在实数$a,b$使得$a+b=1$且
   \begin{align*}
     c_i = a \cdot a_i + b \cdot b_i,
-    \quad (i=1,...,n).
+    \quad (i=1,\dots,n).
   \end{align*}
   用向量运算表示即为$C = aA + bB$.
   特别地, 如果额外限制$0 \le a \le 1$
@@ -176,12 +176,12 @@ $\vec{a}$和$\lambda\vec{a}$是平行(共线)的, 并且
 尽管单纯地定义一个向量``乘法''并不困难, 比如:
 
 \begin{definition}[逐元素乘积]
-  向量$\vec{a}=(a_1,...,a_n),\vec{b}=(b_1,...,b_n)$
+  向量$\vec{a}=(a_1,\dots,a_n),\vec{b}=(b_1,\dots,b_n)$
   的\emph{逐元素乘积}的结果是一个向量, 记作$\vec{a}*\vec{b}$
   (乘号``$*$''不能省略),
   该向量的各个分量是$\vec{a},\vec{b}$的对应分量的乘积, 即
   \[
-    \vec{a}*\vec{b} = (a_1b_1,...,a_nb_n).
+    \vec{a}*\vec{b} = (a_1b_1,\dots,a_nb_n).
   \]
 \end{definition}
 
@@ -233,6 +233,33 @@ $\vec{a}$和$\lambda\vec{a}$是平行(共线)的, 并且
 限于篇幅, 我们在这里不进行证明, 这不会影响我们使用该定理.
 如果你想知道怎么证明, 可以在网上搜索, 或者查看本教程的附录
 \ref{sec:trig-proof}.
+
+内积和外积之所以名字里有``积'',
+是因为它们有类似乘积的\emph{分配律},
+考虑到数乘, 我们把分配律稍作修改,
+得到如下的内积和外积的线性性:
+任取向量$\vec a_1,\vec a_2,\vec b$和实数$k_1,k_2$, 有
+\begin{align*}
+  (k_1\vec a_1 + k_2\vec a_2) \cdot \vec b
+   & = k_1\,(\vec a_1 \cdot \vec b)
+  + k_2\,(\vec a_2 \cdot \vec b),    \\
+  \vec b \cdot (k_1\vec a_1 + k_2\vec a_2)
+   & = k_1\,(\vec b \cdot \vec a_1)
+  + k_2\,(\vec b \cdot \vec a_2),    \\
+  (k_1\vec a_1 + k_2\vec a_2) \times \vec b
+   & = k_1\,(\vec a_1 \times \vec b)
+  + k_2\,(\vec a_2 \times \vec b),   \\
+  \vec b \times (k_1\vec a_1 + k_2\vec a_2)
+   & = k_1\,(\vec b \times \vec a_1)
+  + k_2\,(\vec b \times \vec a_2),   \\
+\end{align*}
+
+除了分配律/线性性之外, 内积和外积还有一些独特的性质:
+\begin{enumerate}[label=(\alph*)]
+  \item 内积的交换律: $\vec a \cdot \vec b = \vec b \cdot \vec a$.
+  \item 外积的反交换律: $\vec a\times\vec b = -\vec b\times\vec a$.
+  \item $\vec a \times \vec a = 0$ 对任意二维向量$\vec a$成立.
+\end{enumerate}
 
 \subsubsection{内积与外积的应用}
 
@@ -363,6 +390,6 @@ $\vec{r}\cdot\vec{r} = x^2 + y^2 = |\vec{r}|^2$.
                 单位向量$\vec n$. 那么平面上的一点$P$满足什么条件时,
                 可以判定$P$在反弹面的后侧?
           \item 若点$P$在反弹面的后侧, 设点$P'$是点$P$关于反弹面的对称点,
-            求$PP'$的长度和点$P'$的坐标向量.
+                求$PP'$的长度和点$P'$的坐标向量.
         \end{enumerate}
 \end{enumerate}

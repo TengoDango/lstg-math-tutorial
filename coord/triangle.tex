@@ -470,7 +470,7 @@ $-90\degree \le \arcsin{y_0} \le 90\degree$.
   \item 证明: $(\cos\theta)^2 + (\sin\theta)^2 = 1$.
         (提示: 三角函数的定义)
 
-  \item \comment{二维旋转公式v1*}
+  \item \comment{旋转公式v1*}
         设平面上有一点$(x,y)$, 将该点绕原点旋转$\phi$角
         (以逆时针为正方向), 得到的点的坐标$(x',y')$怎么表示?
         这就是二维旋转公式要解决的问题,
@@ -485,7 +485,7 @@ $-90\degree \le \arcsin{y_0} \le 90\degree$.
         最好是能够自己写一个lua函数实现这个旋转公式,
         需要旋转的时候统一调用函数, 以防止偶然写错.
 
-        在\ref{sec:affine}节的习题会探讨二维旋转公式的
+        在\ref{sec:vector-base}节的习题会探讨二维旋转公式的
         另一种形式, 和我一样不想记这个标准形式的可以看一看.
 
         这一次的推导基于极坐标直角坐标转换和三角函数的和差角公式.
@@ -542,14 +542,14 @@ $-90\degree \le \arcsin{y_0} \le 90\degree$.
         设图\ref{fig:square-danmaku}中
         方形$B_0B_8CD$的中心为原点, 边长为$2v_0$
         (使得方形开花弹以$v_0$的整体速度扩散),
-        整体倾角为$\alpha$, $B_0,...,B_8$是一组间距相等的点.
+        整体倾角为$\alpha$, $B_0,\dots,B_8$是一组间距相等的点.
 
         \begin{enumerate}[label=(\alph*)]
           \item 若倾角$\alpha=0\degree$,
-                求点$B_i$ ($i=0,1,...,8$)
+                求点$B_i$ ($i=0,1,\dots,8$)
                 的直角坐标$(v_{xi},v_{yi})$.
           \item 若倾角$\alpha\neq0\degree$,
-                求点$B_i$ ($i=0,1,...,8$)
+                求点$B_i$ ($i=0,1,\dots,8$)
                 的极坐标$\braket{v_i,\theta_i}$.
         \end{enumerate}
 

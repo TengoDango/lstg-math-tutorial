@@ -302,7 +302,7 @@ $\braket{r,\theta+180\degree}$也表示同一个位置.
         即图\ref{fig:board-v1}中的$x'O'y'$坐标系.
         需要在这个坐标系下确定渲染的位置.
 
-        总之, 这道题目探讨\raw{world}坐标系$xOy$和
+        总之, 本题探讨\raw{world}坐标系$xOy$和
         \raw{ui}坐标系$x'O'y'$的坐标转换.
         假设我们要在\raw{ui}坐标系渲染版底的
         boss指示标记 (在图中用点$P$表示).
@@ -403,16 +403,15 @@ $\braket{r,\theta+180\degree}$也表示同一个位置.
                 检测到子弹到达版面右侧时, 子弹的朝向为$\alpha$角,
                 请计算反弹后子弹的朝向$\alpha'$角
                 (一个可能取值即可).
-                子弹原来的朝向$\alpha$会改变$\alpha'$的计算结果吗?
         \end{enumerate}
 
-        小明让一圈简单子弹围成圆形, 开启rebound来实现反弹.
+        小明让一圈简单子弹围成圆形, 开启简单子弹的rebound选项来实现反弹.
         但是他发现, 子弹在反弹后不再围成圆形,
         而是形成一个奇怪的形状,
-        如图\ref{fig:rebound-v1-error}. 出现这种错误,
+        如图\ref{fig:rebound-v1-error}. 出现这种问题,
         是因为LuaSTG简单子弹的反弹在实现上有一点缺陷,
         没有考虑到反弹时子弹坐标应该发生改变
-        (不知道什么时候会修复).
+        (但愿以后会修复).
 
         \begin{figure}[htbp]
           \centering

@@ -38,3 +38,4 @@
 *.dvi
 *.ps
 *.pdf
+tikz-cache

@@ -1,1 +1,217 @@
-\chapter{三角函数公式与相关定理证明} \label{sec:trig-proof}
+\chapter{三角函数与向量相关定理证明} \label{sec:trig-proof}
+
+\section{三角函数公式}
+
+\begin{formula}\label{app-thm:tan}
+  $\tan\theta = \dfrac{\sin\theta}{\cos\theta}$.
+\end{formula}
+\begin{proof}
+  由三角函数的定义显然成立.
+\end{proof}
+
+\begin{formula}
+  $(\cos\theta)^2 + (\sin\theta)^2 = 1$.
+\end{formula}
+\begin{proof}
+  由三角函数的定义和勾股定理显然成立.
+\end{proof}
+
+\begin{formula}[诱导公式]\label{app-thm:induction}
+  三角函数诱导公式由若干组化简公式以及一个总结性的规律组成,
+  反映三角函数的周期性, 对称性等性质.
+  \begin{enumerate}[label=(\alph*)]
+    \item $\cos(\theta \pm 360\degree) = \cos\theta,\quad
+            \sin(\theta \pm 360\degree) = \sin\theta$.
+    \item $\cos(-\theta) = \cos\theta,\quad
+            \sin(-\theta) = -\sin\theta$.
+    \item $\cos(\theta + 180\degree) = -\cos\theta,\quad
+            \sin(\theta + 180\degree) = -\sin\theta$.
+    \item $\cos(180\degree - \theta) = -\cos\theta,\quad
+            \sin(180\degree - \theta) = \sin\theta$.
+    \item $\cos(90\degree - \theta) = \sin\theta,\quad
+            \sin(90\degree - \theta) = \cos\theta$.
+    \item $\cos(\theta + 90\degree) = -\sin\theta,\quad
+            \sin(\theta + 90\degree) = \cos\theta$.
+  \end{enumerate}
+
+  更广泛地, 对于形如$f(k\cdot90\degree\pm\theta)$
+  ($k$为整数, $f$代表三角函数$\sin$或$\cos$)
+  的三角函数值, 有一个统一的规律可以进行化简:
+  \[
+    f(k\cdot90\degree\pm\theta) = \pm g(\theta)
+    \quad (g 代表 \sin 或 \cos).
+  \]
+
+  $g$取$\sin$还是$\cos$取决于$k$的奇偶性.
+  $k$为偶数时, $g$和$f$为相同的三角函数;
+  $k$为奇数时, $g$和$f$为不同的三角函数
+  ($\sin\leftrightarrow\cos$).
+
+  结果的$\pm$符号取决于将$\theta$视为锐角
+  ($0\degree < \theta < 90\degree$)时,
+  $f(k\cdot90\degree\pm\theta)$的正负号.
+
+  有一个比较知名的口诀总结这个规律:
+  ``奇变偶不变, 符号看象限''.
+\end{formula}
+\begin{proof}
+  诱导公式的证明主要基于单位圆的对称性.
+  如图\ref{fig:induction-1},
+  我们观察$\theta,\theta\pm360\degree,
+    180\degree+\theta,180\degree-\theta$
+  在单位圆上对应点的对称关系,
+  就可以得到它们的坐标(直接对应三角函数值)的关系.
+  这是诱导公式 (a) -- (d) 的证明.
+
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+      \draw[-latex] (-1.2,0) -- (1.2,0) node[right] {$x$};
+      \draw[-latex] (0,-1.2) -- (0,1.2) node[left] {$y$};
+      \draw (0,0) circle (1);
+      \draw[dashed]
+      (30:1) node[dot,label=
+          {right:$\theta,\theta\pm360\degree$}] {}
+      -- (-150:1) node[dot,label=
+          {left:$180\degree+\theta$}] {}
+      (150:1) node[dot,label=
+          {left:$180\degree-\theta$}] {}
+      -- (-30:1) node[dot,label=
+          {right:$-\theta$}] {};
+    \end{tikzpicture}
+    \caption{诱导公式 (a) -- (d)}
+    \label{fig:induction-1}
+  \end{figure}
+
+  如图\ref{fig:induction-2},
+  角$\theta$与$90\degree-\theta$在单位圆上对应的点
+  关于$45\degree$斜线对称.
+  任意一点$P=(x,y)$关于该直线的对称点坐标为$(y,x)$,
+  这就说明诱导公式(e)成立.
+  诱导公式(f)可以由(b)和(e)得到.
+
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+      \draw[-latex] (-1.2,0) -- (1.2,0) node[right] {$x$};
+      \draw[-latex] (0,-1.2) -- (0,1.2) node[left] {$y$};
+      \draw (0,0) circle (1);
+      \draw[dashed]
+      (65:1) node[dot,label={above:$\theta$}] {}
+      -- (0,0) -- (25:1) node[dot,label=
+          {right:$90\degree-\theta$}] {};
+      \draw (45:-1.2) -- (45:1.2);
+    \end{tikzpicture}
+    \caption{诱导公式 (e)}
+    \label{fig:induction-2}
+  \end{figure}
+
+  通过组合 (a) -- (f), 可以化简$k\cdot90\degree\pm\theta$的三角函数值.
+  不难看出, 化简结果符合前述的
+  $f(k\cdot90\degree\pm\theta) = \pm g(\theta)$,
+  并且$f,g$是否是同一个三角函数取决于$k$的奇偶性.
+  在确定$g$是哪个三角函数之后, 代入任意的$\theta$值,
+  比较$f(k\cdot90\degree\pm\theta)$和$g(\theta)$
+  的正负性即可得到结果的$\pm$符号.
+  一般我们代入锐角值, 因为这样$g(\theta)$一定是正数.
+\end{proof}
+
+\begin{formula}[和差角公式]\label{app-thm:add-sub}
+  三角函数的和差角公式描述了两个角的加和/作差的三角函数展开式.
+  \begin{align*}
+    \cos(\alpha\pm\beta) & =
+    \cos\alpha\cos\beta \mp \sin\alpha\sin\beta, \\
+    \sin(\alpha\pm\beta) & =
+    \sin\alpha\cos\beta \pm \cos\alpha\sin\beta. \\
+  \end{align*}
+\end{formula}
+\begin{proof}
+  首先证明$\cos(\alpha-\beta)$的展开式.
+  设单位圆上有两个向量
+  $\vec r_1=(\cos\alpha,\sin\alpha),
+    \vec r_2=(\cos\beta,\sin\beta)$,
+  则夹角$\angle(\vec r_2,\vec r_1)$与$\alpha-\beta$等价.
+  由向量内积的几何意义, 有
+  \begin{align*}
+    \cos(\alpha - \beta) = \vec r_1 \cdot \vec r_2
+    = \cos\alpha\cos\beta + \sin\alpha\sin\beta.
+  \end{align*}
+
+  由$\cos(\alpha-\beta)$的展开式和诱导公式\ref{app-thm:induction}
+  容易证明其他的展开式：
+  \begin{align*}
+    \cos(\alpha + \beta)
+     & = \cos\alpha\cos(-\beta) + \sin\alpha\sin(-\beta) \\
+     & = \cos\alpha\cos\beta - \sin\alpha\sin\beta,      \\
+    \sin(\alpha + \beta)
+     & = \cos(90\degree - \alpha - \beta)                \\
+     & = \cos(90\degree - \alpha)\cos\beta
+    + \sin(90\degree - \alpha)\sin\beta                  \\
+     & = \sin\alpha\cos\beta + \cos\alpha\sin\beta,      \\
+    \sin(\alpha - \beta)
+     & = \sin\alpha\cos(-\beta) + \cos\alpha\sin(-\beta) \\
+     & = \sin\alpha\cos\beta - \cos\alpha\sin\beta.
+  \end{align*}
+\end{proof}
+
+\section{向量相关定理}
+
+\begin{formula}[内积的几何意义]
+  设$\vec r_1,\vec r_2$是两个二维向量, 它们的夹角为
+  $\angle(\vec r_1,\vec r_2) = \theta$
+  ($-180\degree < \theta \le 180\degree$),
+  $\vec r_1$的长度为$|\vec r_1| = r_1$,
+  $\vec r_2$的长度为$|\vec r_2| = r_2$.
+  则有
+  \begin{align*}
+    \vec r_1 \cdot \vec r_2 & = r_1 r_2 \cos\theta.
+  \end{align*}
+\end{formula}
+\begin{proof}
+  将$\vec r_1,\vec r_2$作相同的旋转变换不会改变
+  $|\vec r_1 - \vec r_2|$的长度.
+  旋转$\vec r_1$使得它的方向为$x$轴正方向,
+  此时$\vec r_1$旋转后的向量为$(r_1,0)$,
+  $\vec r_2$旋转后的向量为$\braket{r_2,\theta}
+    =(r_2\cos\theta,r_2\sin\theta)$.
+  于是$\vec r_1 - \vec r_2$的长度满足
+  \begin{align*}
+    |\vec r_1 - \vec r_2|^2
+     & = (r_2\cos\theta - r_1)^2 + (r_2\sin\theta)^2       \\
+     & = r_1^2 + r_2^2\,(\cos\theta)^2 - 2r_1r_2\cos\theta
+    + r_2^2\,(\sin\theta)^2                                \\
+     & = r_1^2 + r_2^2 - 2r_1r_2\cos\theta.
+  \end{align*}
+
+  与此同时, $|\vec r_1 - \vec r_2|^2
+    = (\vec r_1 - \vec r_2) \cdot (\vec r_1 - \vec r_2)
+    = r_1^2 + r_2^2 - 2 \vec r_1 \cdot \vec r_2$.
+  两个式子作差得到
+  $$2\,(\vec r_1\cdot\vec r_2 - r_1r_2\cos\theta) = 0.$$
+\end{proof}
+
+\begin{theorem}[外积的几何意义]
+  设$\vec r_1,\vec r_2$是两个二维向量, 它们的夹角为
+  $\angle(\vec r_1,\vec r_2) = \theta$
+  ($-180\degree < \theta \le 180\degree$),
+  $\vec r_1$的长度为$|\vec r_1| = r_1$,
+  $\vec r_2$的长度为$|\vec r_2| = r_2$.
+  则有
+  \begin{align*}
+    \vec r_1 \times \vec r_2 & = r_1 r_2 \sin\theta.
+  \end{align*}
+\end{theorem}
+\begin{proof}
+  设$\vec r_1,\vec r_2$的直角坐标为$(x_1,y_1),(x_2,y_2)$,
+  极坐标为$\braket{r_1,\theta_1},\braket{r_2,\theta_2}$.
+  则夹角$\theta$与$\theta_2-\theta_1$等价.
+  通过和差角公式\ref{app-thm:add-sub}可得
+  \begin{align*}
+    \vec r_1 \times \vec r_2
+     & = x_1 y_2 - x_2 y_1                  \\
+     & = r_1 r_2 (\cos\theta_1 \sin\theta_2
+    - \cos\theta_2 \sin\theta_1)            \\
+     & = r_1 r_2 \sin(\theta_2 - \theta_1)  \\
+     & = r_1 r_2 \sin\theta.
+  \end{align*}
+\end{proof}

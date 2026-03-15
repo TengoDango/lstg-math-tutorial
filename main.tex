@@ -7,6 +7,7 @@
 \usepackage{tikz}
 \usepackage{tabularx}
 \usepackage{enumitem}
+\usepackage{listing,lstfiracode}
 \usepackage{hyperref}
 
 % 页面设置
@@ -22,6 +23,18 @@
   colorlinks=true,
   linkcolor=black,
   urlcolor=blue,
+}
+
+% 代码块
+\lstset{
+  basicstyle=\small\ttfamily,
+  style=FiraCodeStyle,
+  numbers=left,
+  numberstyle=\tiny,
+  frame=shadowbox,
+  escapeinside=``,
+  xleftmargin=2em, xrightmargin=2em, aboveskip=1em,
+  framexleftmargin=2em
 }
 
 % 定理环境
@@ -73,6 +86,9 @@
 \newcommand{\comment}[1]{\textcolor{gray}{(\textsf{#1})}}
 \newcommand{\raw}[1]{\texttt{#1}}
 \newcommand{\spellcard}[1]{「#1」}
+\newcommand{\hlinefill}[1][0.5pt]{
+  \noindent\textcolor{gray}{\rule{\textwidth}{#1}}
+}
 
 % 文档
 \begin{document}
@@ -88,7 +104,6 @@
 
 \include{coord/__init__}
 \include{linear/__init__}
-\include{motion/__init__}
 \include{curve/__init__}
 \include{3d/__init__}
 

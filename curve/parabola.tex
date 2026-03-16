@@ -1,0 +1,124 @@
+\section{匀变速运动与抛物线} \label{sec:curve-parabola}
+
+匀变速运动是加速度保持不变, 速度随时间匀速变化的运动.
+在物理上, 一个只受恒定重力影响的物体将进行匀变速运动.
+匀变速运动也是弹幕制作中非常基础的一类变速运动和曲线运动.
+
+\subsubsection{匀变速直线运动}
+
+首先考虑加速度保持不变的直线运动. 对于在一维坐标轴上运动的点$x(t)$,
+设初始($t=0$)位置为$x_0$, 初始速度为$v_0$, 加速度保持为$a_0$.
+由于速度随时间匀速变化, 有
+\[ v(t) = v_0 + a_0 t. \]
+
+为了求解$x(t)$我们需要找一个函数使得它的变化率为$v(t)$.
+很遗憾我们没有引入足够的数学工具来严格推导$x(t)$的表达式,
+只能直接给出结论. 匀变速运动的位置$x(t)$是一个关于$t$的二次函数:
+\[ x(t) = x_0 + v_0 t + \dfrac12 a_0 t^2. \]
+
+我们以图\ref{fig:acceleration}为例介绍一下匀变速直线运动的图象.
+$v(t)$的图象是一条直线, 不必多说.
+$x(t)$的图象是一个U型的曲线,
+如果加速度$a_0>0$, 那么曲线的开口是朝上的;
+反之如果$a_0<0$, 那么曲线的开口朝下.
+同时, 加速度$a_0$的大小决定了曲线的形状,
+而$v_0,x_0$只影响曲线的整体位置.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}{0.49\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \draw[-latex] (-2.5,0) -- (2.5,0) node[right] {$t$};
+      \draw[-latex] (0,-0.5) -- (0,2) node[left] {$v$};
+      \draw[red,smooth,domain={-2:2}] plot (\x,{0.5*\x+0.5})
+      node[above] {$v(t)$};
+
+      \draw (-1,1mm) -- (-1,-1mm) node[below] {$-1$};
+      \draw (-1mm,0.5) -- (1mm,0.5) node[right] {$0.5$};
+    \end{tikzpicture}
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \draw[-latex] (-3,0) -- (2.5,0) node[right] {$t$};
+      \draw[-latex] (0,-0.5) -- (0,2.5) node[left] {$x$};
+      \draw[blue,smooth,domain={-2.5:2.2}]
+      plot (\x,{0.5*\x+0.25*\x*\x});
+      \node[above,blue] at (-2.5,0.25) {$x(t)$};
+
+      \draw (-1,1mm) -- (-1,-1mm) node[below] {$-1$};
+      \draw (-2,1mm) -- (-2,-1mm) node[below] {$-2$};
+      \draw (2,1mm) -- (2,-1mm) node[below] {2};
+      \draw (1mm,2) -- (-1mm,2) node[left] {2};
+      \draw[dashed,help lines] (0,2) -- (2,2) -- (2,0);
+    \end{tikzpicture}
+  \end{subfigure}
+  \caption{匀变速直线运动的图象 ($x_0=0,v_0=0.5,a_0=0.5$)}
+  \label{fig:acceleration}
+\end{figure}
+
+在\ref{sec:curve-basic}节提到过,
+实际游戏中时间是一帧一帧的,
+其速度/加速度是将两个时刻的位置/速度作差.
+此时实际的位置表达式与运动学的$x(t)$表达式有多大的偏差呢?
+假设点在$t$时刻的位置为$x[t]$, 速度和加速度定义如下:
+\begin{align*}
+  v[t] & = x[t] - x[t-1], \\
+  a[t] & = v[t] - v[t-1].
+\end{align*}
+
+反过来, 我们可以通过累加来实现由速度/加速度计算位置/速度:
+\begin{align*}
+  v[t] & = v[0] + (a[1] + a[2] + \dots + a[t]), \\
+  x[t] & = x[0] + (v[1] + v[2] + \dots + v[t]).
+\end{align*}
+
+由于加速度保持$a_0$不变, 可以得到
+$v[t] = v[0] + a_0\cdot t = v_0 + a_0t$,
+和运动学给出的速度表达式一致.
+然后我们可以计算$x[t]$:
+\begin{align*}
+  x[t] & = x_0 + (v_0 + a_0) + (v_0 + 2a_0)
+  + \dots + (v_0 + t\cdot a_0)                                  \\
+       & = x_0 + v_0 t + a_0\,(1+2+\dots+t)                     \\
+       & = x_0 + \Big(v_0+\dfrac12a_0\Big) t + \dfrac12 a_0t^2.
+\end{align*}
+
+这相当于初速度有一个大小为$\dfrac12a_0$的偏差,
+对于弹幕设计来说一般是可以忽略的.
+
+\subsubsection{平面上的匀变速运动}
+
+接下来扩展到平面上的匀变速运动.
+设初始位置为$\vec r_0 = (x_0,y_0)$,
+初速度为$\vec v_0 = (v_{x0},v_{y0})$,
+加速度保持为$\vec a_0 = (a_{x0},a_{y0})$.
+由于加速度$\vec a$的横纵坐标保持不变,
+实际上位置$\vec r$的横纵坐标各自符合匀变速直线运动的形式. 所以有
+\begin{align*}
+  x(t) & = x_0 + v_{x0} t + \dfrac12 a_{x0} t^2, \\
+  y(t) & = y_0 + v_{y0} t + \dfrac12 a_{y0} t^2,
+\end{align*}
+或者用向量运算表示为
+\[
+  \vec r(t) = \vec r_0 + \vec v_0 t + \dfrac12 \vec a_0 t^2.
+\]
+
+匀变速运动的轨迹是怎样的呢?
+当$\vec v_0,\vec a_0$共线时, 点将保持在一条直线上运动.
+$\vec v_0,\vec a_0$不共线时, 运动的轨迹是一个U型曲线,
+被称为\emph{抛物线}, 如下图所示.
+实际上, 前面的匀变速直线运动的$x(t)$图象就是一条抛物线.
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.5]
+    \coordinate (v) at (2,-0.5);
+    \coordinate (a) at (-1,-1);
+
+    \draw[blue,smooth,domain={-2:3},variable=\t]
+    plot ({ $\t*(v) + 0.5*\t*\t*(a)$ });
+    \draw[->] (0,0) -- (v) node[right] {$\vec v_0$};
+    \draw[->] (0,0) -- (a) node[below] {$\vec a_0$};
+  \end{tikzpicture}
+\end{center}

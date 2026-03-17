@@ -1,3 +1,163 @@
 \section{圆周运动} \label{sec:curve-circle}
 
+圆周运动顾名思义, 就是点在一个固定圆周上的运动.
+很自然地, 我们可以用点相对于圆心的方位角表示点的位置,
+也就是下图的$\theta(t)$, 称为角位置.
+类似地还有角速度, 也就是角位置$\theta$随时间的变化率,
+通常用$\omega$表示.
+\footnote{$\omega$对应英文omega,
+  但是LuaSTG的角速度却是\raw{self.omiga},
+  估计是一开始写错后来改不了了.}
 
+\begin{center}
+  \begin{tikzpicture}[scale=2]
+    \draw (0,0) circle (1);
+    \draw[help lines] (0,0) -- (60:1) coordinate (P)
+    node[sloped,above,midway,black] {$R$};
+
+    \node[dot] at (P) {};
+
+    \draw[help lines] (0,0) -- (8pt,0)
+    (4pt,0) arc (0:60:4pt)
+    node[pos=0.9,right,black] {$\theta(t)$};
+
+    \draw[-latex] (75:1.2) arc (75:85:1.2)
+    node[left] {$\omega(t)$};
+  \end{tikzpicture}
+\end{center}
+
+这样我们就可以用研究直线运动的方法来研究$\theta$随时间的变化.
+弹幕中的圆周运动大部分是角速度保持不变的,
+类比匀速直线运动, 我们称之为匀速圆周运动
+\footnote{匀速圆周运动的``匀速''指的是速度大小不变而不是速度向量不变,
+  因此更准确的说法为``匀速率圆周运动''.}.
+设初始的角位置为$\theta_0$, 有
+\[\theta(t) = \theta_0 + \omega t.\]
+
+这套用$\theta(t)$表示圆周运动的体系可以与
+平面运动的位置向量, 速度向量等联系起来.
+我们主要考虑匀速圆周运动:
+设圆周运动的圆心为$\vec r_0=(x_0,y_0)$, 半径为$R$,
+运动的角位置为$\theta(t) = \theta_0 + \omega t$.
+那么根据第一章的内容, 有
+\begin{align*}
+  \vec r(t) & = \vec r_0 + \braket{R,\theta_0 + \omega t}, \\
+  x(t)      & = x_0 + R\cos(\theta_0 + \omega t),          \\
+  y(t)      & = y_0 + R\sin(\theta_0 + \omega t).
+\end{align*}
+
+我们可以从路程着手去计算速度.
+速度的大小等于路程随时间的变化率,
+而匀速圆周运动的路程是圆周的弧长.
+从0到$t$时间段, 点划过的角度(即角位置的变化量)为$\omega t$,
+对应的弧长, 即路程, 为$s(t) = R\cdot\omega t$ (角的大小按弧度制计算).
+所以速度的大小, 即路程$s(t)$的变化率, 为$v = R\omega$.
+
+\begin{center}
+  \begin{tikzpicture}[scale=2]
+    \draw[help lines] (10:1) arc (10:80:1);
+    \draw (30:1) coordinate (A) arc (30:60:1) coordinate (B)
+    node[midway,inner sep=1pt,above right] {$\Delta s$};
+    \draw[dashed] (A) node[dot]{} -- (0,0) -- (B) node[dot]{}
+    node[left,pos=0.6] {$R$};
+    \draw (30:6pt) arc (30:60:6pt)
+    node[below right] {$\Delta\theta$};
+  \end{tikzpicture}
+  \hspace{0.2\textwidth}
+  \begin{tikzpicture}[scale=2]
+    \draw (10:1) arc (10:80:1);
+    \draw[-latex] (0,0) -- (45:1) coordinate (P)
+    node[pos=0.5,above left] {$\vec r-\vec r_0$};
+    \draw[-latex] (P) -- +(135:0.5) node[above] {$\vec v$};
+  \end{tikzpicture}
+\end{center}
+
+速度的方向与圆周相切, 由于圆的几何性质,
+这相当于速度$\vec v$的方向和运动点对应的半径
+$\vec r-\vec r_0$的方向垂直.
+由于$\vec r-\vec r_0$的方向角为$\theta(t)$,
+我们最终得到匀速圆周运动的速度
+\[
+  \vec v(t) = \braket{R\omega, \theta_0+\omega t+90\degree}.
+\]
+
+加速度是速度的变化率, 如果把$v(t)$视为点的位置,
+它也符合匀速圆周运动的形式, 所以匀速圆周运动的加速度为
+\begin{align*}
+  \vec a(t) & = \braket{R\omega\cdot\omega,
+  \theta_0+\omega t+90\degree+90\degree}    \\
+            & = \braket{R\omega^2,
+    \theta_0+\omega t+180\degree}.
+\end{align*}
+
+值得注意的是加速度的方向与半径$\vec r-\vec r_0$的方向恰好相反,
+也就是说, $\vec a(t) = -\omega^2 \cdot (\vec r(t) - \vec r_0)$.
+
+对于一般的圆周运动, 角速度$\omega(t)$不是定值,
+此时速率与角速度仍然有比例关系
+\[v(t) = R\cdot\omega(t),\]
+
+然而加速度不再有类似的形式 (因为速度向量不再符合圆周运动的形式).
+
+\hlinefill
+
+最后简单说一说圆的方程.
+
+基于圆周运动我们有参数方程
+$x=x_0+R\cos{t},\ y=y_0+R\sin{t}$
+(向量形式$\vec r=\vec r_0+\braket{R,t}$),
+该参数方程常用于生成圆上的点.
+参数$t$等于圆心与对应点连续的方向角.
+
+基于圆的几何定义 (与某一点的距离为定值的所有点组成一个圆),
+我们有一般方程$(x-x_0)^2+(y-y_0)^2=R^2$.
+作为一般方程, 它在解析几何中有一定的应用,
+但在弹幕中没什么应用场景.
+
+其实圆有一个非常特别的极坐标方程:
+$r(\theta) = 2R\cos(\theta-\theta_0)$.
+该方程对应一个半径为$R$, 圆心为$\braket{R,\theta_0}$的圆,
+这样的圆必定经过原点.
+
+很有意思的一点是, 如果我们让极角$\theta$随时间匀速变化,
+那么对应圆上的点也会进行匀速圆周运动, 且角速度是$\theta$变化率的两倍.
+背后的原理请自行搜索学习\emph{圆心角和圆周角}的相关内容.
+
+\begin{center}
+  \begin{tikzpicture}[scale=2]
+    \draw[red] (1,0) circle (1)
+    node[right] at (2,0.5) {$r=2\cos\theta$};
+    \draw[-latex,help lines] (0,0) node[left] {$O$} -- (2.5,0);
+    \draw[help lines] (1,1pt) -- (1,-1pt) node[below] {1};
+
+    \foreach \a/\anchor in {-70/left,-34/below right,2/above right,38/above,74/left} {
+        \node[dot] at (\a:{2*cos(\a)}) {};
+        \node[\anchor] at (\a:{2*cos(\a)})
+        {$\theta=\a\degree$};
+      }
+
+    \draw[help lines] (1,0) -- +(148:1)
+    +(3pt,0) arc (0:148:3pt) node[above right] {$148\degree$}
+    (0,0) -- ($(1,0)+(148:1)$)
+    (3pt,0) arc (0:74:3pt)
+    node[midway,above right,inner sep=0pt] {$74\degree$};
+  \end{tikzpicture}
+\end{center}
+
+圆的这个极坐标方程基本不会被被用到,
+不过在符卡
+异界\spellcard{逢魔之刻} (绀珠传EX)
+中出现了由该方程构造的圆形
+(虽然用了各种复杂化技巧之后只保留了圆形的``意境''),
+之后有机会或许会详细地讲一讲其中的具体原理.
+现在暂时只能放两张意义不明的图在这里.
+
+\begin{center}
+  \includegraphics[width=0.8\textwidth]
+  {assets/curve/special-circle-code.png}
+
+  \vspace{1em}
+
+  \includegraphics[width=0.8\textwidth]
+  {assets/curve/hecatia.png}
+\end{center}

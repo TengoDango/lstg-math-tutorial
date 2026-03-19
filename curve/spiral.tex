@@ -1,3 +1,138 @@
-\section{阿基米德螺线与风车弹} \label{sec:curve-spiral}
+\section{等速螺线与风车弹} \label{sec:curve-spiral}
 
+等速螺线(阿基米德螺线)是一个点匀速离开某个固定点的同时
+又以固定的角速度绕该固定点转动而产生的轨迹, 其极坐标方程为
+\[ r = a + b \theta, \]
+其中$a,b$为定值, $b \neq 0$.
 
+等速螺线常见于风车弹, 我们就以下面的简单风车弹为例进行讨论.
+
+\begin{center}
+  \includegraphics[width=0.9\textwidth]
+  {assets/curve/windmill-code.png}
+\end{center}
+
+设风车弹的发弹点固定为原点, 初始发弹方向为$\theta_0$,
+每帧发射速度恒定为$v>0$的子弹 ($v$较小),
+每次发弹角度增量为$\omega$ ($\omega$的绝对值较小).
+我们考虑在$T$时刻风车弹构成的曲线.
+
+对于$t$时刻发射的子弹 ($0\le t\le T$),
+速度角度为$\theta(t)=\theta_0+\omega t$,
+子弹运动的时间为$T-t$, 于是与发弹点的距离为
+$r(t)=v(T-t)$. 于是曲线方程为
+\begin{align*}
+  r      & = v\,(T - t),          \\
+  \theta & = \theta_0 + \omega t.
+\end{align*}
+
+接下来我们消去$t$来确定$r$和$\theta$的函数关系.
+由$\theta=\theta_0+\omega t$有
+$t = (\theta - \theta_0) / \omega$, 代入$r(t)$得到
+\[
+  r = v\cdot\left(T - \dfrac{\theta-\theta_0}{\omega}\right)
+  = \dfrac{v}{\omega} (\theta_0 + \omega T - \theta).
+\]
+这符合等速螺线的方程: 设$b = -v/\omega$,
+$a=v/\omega\cdot(\theta_0+\omega T)$,
+则有$r=a+b\theta$.
+
+在等速螺线的方程$r=a+b\theta$中,
+$b$决定螺线的疏密程度, 而$a$只影响螺线的整体旋转.
+
+$b$越小, $r$随$\theta$的变化越慢, 螺线就越密集,
+看起来就越像一组同心圆 (图\ref{subfig:spiral-1});
+反之, $b$越小, 螺线就越稀疏,
+看起来就越像一条直线 (图\ref{subfig:spiral-2}).
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}{0.49\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \draw[help lines] (-1.5,0) -- (1.5,0);
+      \draw[help lines] (0,-1.5) -- (0,1.5);
+      \draw[help lines] (1,1pt) -- (1,-1pt) node[below] {1};
+      \draw[smooth,domain={0:1.5},samples=100]
+      plot ({\x*1000}:\x);
+    \end{tikzpicture}
+    \caption{$b=1/1000\degree$}
+    \label{subfig:spiral-1}
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \draw[help lines] (-1.5,0) -- (1.5,0);
+      \draw[help lines] (0,-1.5) -- (0,1.5);
+      \draw[help lines] (1,1pt) -- (1,-1pt) node[below] {1};
+      \draw[smooth,domain={0:1.5}]
+      plot ({\x*10}:\x);
+    \end{tikzpicture}
+    \caption{$b=1/10\degree$}
+    \label{subfig:spiral-2}
+  \end{subfigure}
+  \caption{等速螺线$r=b\theta$}
+\end{figure}
+
+把螺线$r=b\theta$逆时针旋转$\alpha$角,
+所得的螺线方程为$r=b(\theta-\alpha)$,
+对应到$r=a+b\theta$则为$a=-b\alpha$.
+
+这样我们就可以分析风车弹的参数对螺线形状的影响.
+设$T$时刻的螺线方程为$r=b(\theta-\alpha)$, 则:
+
+$b=-v/\omega$, 所以弹速$v$越小, 每次发弹的角度增量$\omega$越大,
+$b$越小, 螺线也就越密集. 同时, $b$的正负性与$\omega$的正负性是相反的,
+这意味着当发弹角度逆时针变化时, 螺线的延伸方向实际上是反过来的顺时针.
+
+$\alpha=\theta_0+\omega T$与时间$T$吻线性关系,
+所以风车弹的螺线随时间匀速旋转, 且旋转角速度为$\omega$.
+
+关于等速螺线和风车弹, 还有一些有意思的问题, 可惜由于时间原因不能展开来讲:
+
+\subsubsection{波粒}
+
+如果我们把前述风车弹的角度增量$\omega$调大,
+它对应的等速螺线总是变得更密集. 但是,
+风车弹本身看起来却不一定变得密集.
+例如, 下图的紫色鳞弹是$\omega=75\degree$的1-way风车,
+而红色小弹是$\omega=3\degree$的5-way风车.
+明明紫色鳞弹每次只发射一颗, 但最终看起来却像是一个5-way风车.
+
+\begin{center}
+  \includegraphics[width=0.5\textwidth]
+  {assets/curve/windmill.png}
+\end{center}
+
+这个现象背后的原理直接引出了\spellcard{波与粒子的境界},
+同时在人鱼非符, \spellcard{生与死的境界}等风车弹也有一定的应用.
+详细的原理解释可以看锑块大佬的视频
+\href{https://www.bilibili.com/video/BV1B7411m7tz/}
+{【波与粒的境界为什么长这样？这个视频会告诉你一切】}.
+
+\subsubsection{等速螺线的另一支}
+
+其实我们只介绍了等速螺线在$r\ge0$部分的形状.
+可能有些读者会认为等速螺线在$r<0$部分的形状
+就是把$r\ge0$的部分旋转180\degree, 但实际上并非如此.
+
+图\ref{fig:two-branch}展示了$r=\theta/500\degree$的图象,
+蓝色线是$r\ge0$的部分, 而红色线是$r<0$的部分.
+两部分实际上是轴对称的.
+假如我们把固定发弹点改为在圆周上发弹,
+并且发弹方向朝向圆心, 那么我们能看到等速螺线$r<0$部分的一小段.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.5]
+    \draw[help lines] (-1.5,0) -- (1.5,0);
+    \draw[help lines] (0,-1.5) -- (0,1.5);
+    \draw[help lines] (1,1pt) -- (1,-1pt) node[below] {1};
+    \draw[blue,smooth,domain={0:1.5},samples=100]
+    plot ({\x*500}:\x);
+    \draw[red,smooth,domain={-1.5:0},samples=100]
+    plot ({\x*500}:\x);
+  \end{tikzpicture}
+  \caption{}
+  \label{fig:two-branch}
+\end{figure}

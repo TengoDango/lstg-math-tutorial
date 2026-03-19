@@ -1,3 +1,74 @@
-\section{椭圆的方程} \label{sec:curve-ellipse}
+\section{椭圆的参数方程} \label{sec:curve-ellipse}
 
+椭圆, 是圆在某个方向上伸缩得到的曲线, 经常被用来营造弹幕的立体感.
+虽然在高中解析几何对椭圆有另一套完全不同的研究,
+但对弹幕制作来说完全没用. 这一节我们只讲弹幕能用到的内容:
+椭圆的参数方程.
 
+我们知道圆有参数方程$x=R\cos t,\ y=R\sin t$,
+既然椭圆是由圆伸缩得到的, 我们很容易得到椭圆的一个参数方程:
+\[
+  \begin{cases}
+    x=a\cos t \\ y=b\sin t
+  \end{cases}
+\]
+其中$a>b>0$为定值.
+该方程描述了一个中心点为原点, 水平放置的椭圆,
+椭圆的长轴长度为$2a$, 短轴长度为$2b$.
+需要注意参数$t$的几何含义,
+$t$并不是对应点与原点连线的方向角,
+而是在椭圆伸缩之前的圆周上的对应方向角.
+
+\begin{center}
+  \begin{tikzpicture}
+    \draw (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw (0,-1.5) -- (0,1.5) node[left] {$y$};
+
+    \foreach \x in {-2,-1,1,2}
+    \draw (\x,1pt) -- (\x,-1pt)
+    node[below] {$\x$};
+    \foreach \y in {-1,1}
+    \node[left] at (0,\y) {$\y$};
+
+    \draw[red,smooth,domain={0:360},variable=\t]
+    plot ({2*cos(\t)},{sin(\t)})
+    node[right] at (1,1) {$x=2\cos t,\ y=\sin t$};
+  \end{tikzpicture}
+\end{center}
+
+\hlinefill
+
+我们还想要得到倾斜的椭圆的方程. 那么可以把上述参数方程代入二维旋转公式
+\begin{align*}
+  x' & = x\cos\phi - y\sin\phi, \\
+  y' & = x\sin\phi + y\cos\phi,
+\end{align*}
+
+得到斜椭圆的一个参数方程:
+\begin{align*}
+  \begin{cases}
+    x = a\cos{t}\cos\phi - b\sin{t}\sin\phi \\
+    y = a\cos{t}\sin\phi + b\sin{t}\cos\phi
+  \end{cases}
+\end{align*}
+
+其中$a,b$分别为椭圆的半长轴长, 半短轴长,
+$\phi$为椭圆的倾斜角, 椭圆的中心为原点.
+
+\hlinefill
+
+上述的斜椭圆方程已经足够使用了,
+不过我们还有一个版本, 比基于旋转公式的方程好记一些:
+\[
+  \vec r = \braket{R_1,\phi+t} + \braket{R_2,\phi-t}
+  \ 或\
+  \begin{cases}
+    x = R_1\cos(\phi+t) + R_2\cos(\phi-t) \\
+    y = R_1\sin(\phi+t) + R_2\sin(\phi-t)
+  \end{cases}
+\]
+
+该方程描述了一个中心点为原点,
+半长轴长$a=R_1+R_2$, 半短轴长$b=R_1-R_2$,
+倾斜角为$\phi$的椭圆.
+实际上它与前一个斜椭圆方程是完全等效的.

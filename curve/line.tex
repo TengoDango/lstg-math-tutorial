@@ -81,8 +81,8 @@ $\vec v_0$方向的射线.
 ($\vec r_0,\alpha$为定值)
 
 \noindent 坐标形式: $\begin{cases}
-  x=x_0+t\cos\alpha \\ y=y_0+t\sin\alpha
-\end{cases}$
+    x=x_0+t\cos\alpha \\ y=y_0+t\sin\alpha
+  \end{cases}$
 
 该方程描述了一条经过点$\vec r_0=(x_0,y_0)$, 倾斜角为$\alpha$的直线.
 它使用$(\cos\alpha,\sin\alpha)$作为方向向量,
@@ -105,8 +105,8 @@ $\vec v_0$方向的射线.
 ($\vec r_1,\vec r_2$为定值)
 
 \noindent 坐标形式: $\begin{cases}
-  x=x_1+(x_2-x_1)t \\ y=y_1+(y_2-y_1)t
-\end{cases}$
+    x=x_1+(x_2-x_1)t \\ y=y_1+(y_2-y_1)t
+  \end{cases}$
 
 该方程描述了一条经过点$\vec r_1=(x_1,y_1)$和$\vec r_2=(x_2,y_2)$的直线,
 与\ref{sec:vec-calc}节提到的线性插值问题相照应.
@@ -123,4 +123,74 @@ $\vec v_0$方向的射线.
 
 \begin{center}
   \includegraphics[width=\textwidth]{assets/curve/star-code.png}
+\end{center}
+
+还是说一说正多边形的极坐标方程:
+\[
+  r(\theta) = \dfrac{d}{\cos\big(
+    (\theta-\theta_0+\alpha_n) \bmod 2\alpha_n - \alpha_n
+    \big)}
+\]
+其中$d,\theta_0$为定值, $\alpha_n$是关于多边形边数$n$的定值:
+$\alpha_n = 180\degree/n$.
+$\bmod$是取余运算(对应lua的``\raw{\%}''运算符).
+这个看起来很复杂的方程是怎么来的呢?
+它实际上是由直线的极坐标方程得到的.
+
+首先我们看到分母上的$\theta-\theta_0$, 这里涉及到曲线的整体旋转.
+如果把极坐标方程$r(\theta)$对应的曲线绕原点逆时针旋转$\theta_0$角,
+那么极坐标方程将变为$r(\theta-\theta_0)$.
+我们把这个整体旋转去掉, 方程变为
+\[
+  r(\theta) = \dfrac{d}{\cos\big(
+    (\theta+\alpha_n) \bmod 2\alpha_n - \alpha_n
+    \big)}.
+\]
+
+然后我们来看分母的$\cos$里面的角
+$(\theta+\alpha_n) \bmod 2\alpha_n - \alpha_n$.
+这涉及到同余(\ref{sec:modulo}节)的相关知识.
+这个式子会计算一个与$\theta$同余的角(模$2\alpha_n$),
+且取值范围为$-\alpha_n \le \cdot < \alpha_n$.
+这样做的目的是构造旋转对称的图形, 具体来说,
+这样做可以把$r(\theta)$在$-\alpha_n\le\theta<\alpha_n$范围的曲线
+图形旋转到其他角度范围, 比如$\alpha_n\le\theta<3\theta_n$.
+
+\begin{center}
+  \begin{tikzpicture}
+    \draw[help lines] (36:1.5) node[right] {$\alpha_n$}
+    -- (0,0) -- (-36:1.5) node[right] {$-\alpha_n$};
+    \draw[help lines,-latex] (0,0) -- (1.5,0)
+    node[right] {$0\degree$};
+    \draw (-36:0.6) -- (36:1.2);
+    \foreach \a in {36,108,180,-108}
+    \draw[dashed] (\a:0.6) -- ({\a+72}:1.2);
+  \end{tikzpicture}
+\end{center}
+
+那么我们把这个旋转对称给去掉, 方程变为
+$$r(\theta) = \dfrac{d}{\cos\theta}$$
+
+它的分子$d$是一个定值, 分子是$\theta$的余弦值,
+这其实是竖直线的极坐标方程: 设竖直线$x=d$,
+把直角坐标转换为极坐标, 得到极坐标方程$r\cos\theta=d$,
+也就是$r(\theta) = {d}/{\cos\theta}$.
+方程中的$d$就是正多边形的中心与每条边的距离.
+
+如果在直线上取一组点, 它们的极角是等间隔分布的
+(相对于等距分布, 我们一般把这种分布叫做等角分布).
+那么得到的点是怎样分布的呢? 如下图所示,
+横线上方是等距分布的一组点, 下方则是等角分布的一组点.
+我们看到, 直线上的等角分布呈现出``外疏内密''的特点,
+在制作弹幕的时候需要注意.
+
+\begin{center}
+  \begin{tikzpicture}[scale=5]
+    \draw (-1,0) -- (1,0);
+    \def\y{2pt};
+    \foreach \x in {-10,-9,...,10} {
+      \node[dot] at (\x/10,\y) {};
+      \node[dot] at ({tan(\x/10*45)},-\y) {};
+    }
+  \end{tikzpicture}
 \end{center}

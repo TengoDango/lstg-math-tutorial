@@ -1,1 +1,111 @@
-\section{三维向量与定轴旋转} \label{sec:3d-rotate}
+\section{定轴旋转} \label{sec:3d-rotate}
+
+这一节我们讨论三维向量的定轴旋转问题.
+如图\ref{fig:3d-rotate},
+空间中的一个点$A$和一个单位向量$\vec n$确定一个旋转轴.
+将空间中一点$P$绕该轴旋转$\alpha$角, 得到点$P'$.
+我们用向量来描述这个问题, 那么就是向量$\vv{AP}$
+绕轴向量$\vec n$旋转$\alpha$角, 得到向量$\vv{AP'}$.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \begin{scope}[canvas is zx plane at y=1]
+      \draw[dashed] (0,0) circle (1);
+      \draw[dashed] (30:1) coordinate (P)
+      -- (0,0) -- (80:1) coordinate (P');
+      \draw (30:2mm) arc (30:80:2mm)
+      node[below] {$\alpha$};
+    \end{scope}
+
+    \draw[-latex] (0,0) -- (0,1.8) node[left] {$\vec n$};
+    \draw[-latex] (0,0) -- (P);
+    \draw[-latex] (0,0) -- (P');
+
+    \node[label={right,background:$P$}] at (P) {};
+    \node[dot,label={left:$A$}] at (0,0) {};
+    \node[label={right,background:$P'$}] at (P') {};
+  \end{tikzpicture}
+  \caption{定轴旋转}
+  \label{fig:3d-rotate}
+\end{figure}
+
+\subsection{旋转的正方向}
+
+首先要说一下三维空间的旋转方向.
+在平面上我们使用顺时针/逆时针来描述旋转的方向,
+但在三维空间中哪个方向是``顺时针''并无公认的规范,
+这使得不同资料对三维旋转的文字描述和公式有很大的差异.
+
+本教程不使用顺时针/逆时针的说法,
+而是从坐标系层面规定旋转的正方向.
+
+在$x,y,z$轴构成的直角坐标系中,
+我们规定$x \to y \to z \to x \to \cdots$为正序,
+反过来$z \to y \to x \to z \to \cdots$为逆序,
+这是各类资料基本都认同的.
+在平面直角坐标系$xOy$中,
+将$x$轴旋转$90\degree$到$y$轴, 这是平面上旋转的正方向
+(也就是逆时针方向), 将该方向记作$x \to y$旋转方向.
+反过来, 将$y$轴旋转$90\degree$到$x$轴的旋转方向记作$y \to x$.
+类似地可以定义$y\to z,x\to z$等方向.
+如果一个旋转方向包含在正序$x \to y \to z \to x \to \cdots$中,
+就称该方向是正方向, 比如$x\to y,y\to z,z\to x$.
+否则就说该方向是负方向.
+
+接下来我们定义``绕轴旋转''的正方向.
+把轴向量视为某个坐标轴的方向向量,
+此时另外两个坐标轴对应的正向旋转,
+就是绕该轴向量的正向旋转.
+例如绕$y$轴旋转的正方向为$z\to x$,
+与左右手系无关.
+又例如图\ref{fig:3d-rotate}中
+$\vv{AP}$绕轴$\vec n$到$\vv{AP'}$的旋转,
+如果是右手坐标系, 这是正向的旋转;
+而如果是左手坐标系, 则是负向旋转.
+
+为什么要这样定义旋转?
+这是为了让旋转公式不受左右手系的影响.
+如果我们定义图\ref{fig:3d-rotate}的旋转是正方向,
+那么按照数学资料给出的旋转公式在左手系中直接计算,
+会得到负向的旋转.
+
+\subsection{定轴旋转公式}
+
+向量绕坐标轴的旋转相当于平面上的旋转,
+直接套用二维旋转公式即可.
+比如, 将$\vec r=(x,y,z)$绕$y$轴旋转$\alpha$角得到
+$\vec r'=(x',y',z')$.
+首先有$y'=y$. 将$\vec r,\vec r'$投影到$zOx$平面,
+得到二维向量$(z,x),(z',x')$, 代入二维旋转公式
+\begin{align*}
+  z' = z\cos\alpha - x\sin\alpha, \\
+  x' = z\sin\alpha + x\cos\alpha.
+\end{align*}
+
+轴向量$\vec n$不在坐标轴上时, 旋转的计算将变得比较复杂.
+我们考虑将$\vec r$绕单位向量$\vec n$旋转$\alpha$角得到向量$\vec r'$.
+
+如果对精度要求很低, 我们可以用一个比较好记的近似方法:
+记\emph{轴角向量}为$\vec\alpha = \alpha\cdot\vec n
+  = (\alpha_x,\alpha_y,\alpha_z)$,
+将$\vec r$依次绕$x,y,z$轴旋转$\alpha_x,\alpha_y,\alpha_z$角,
+即得到近似计算结果. 该方法中, 三次旋转的顺序并不重要.
+大体上, 旋转角$\alpha$越接近0, 轴向量$\vec n$越接近坐标轴, 近似误差越小.
+
+罗德里格斯旋转公式 (Rodrigues' rotation formula)
+给出了一个计算定轴旋转的公式:
+\[
+\vec r' = \vec r \cos\alpha
++ (\vec n \times \vec r) \sin\alpha
++ \vec n (\vec n\cdot\vec r)(1 - \cos\alpha).
+\]
+
+这个公式的推导就不讲了, 没什么意思, 实际应用的时候包装成一个函数直接调用就够了.
+
+其他的旋转相关内容比如欧拉角,
+我个人不是很了解, 感觉对伪3D弹幕也不是必要的,
+所以本教程就不讲了. 想要深入学习的读者请自行查找其他资料,
+这里可以安利一个知乎专栏
+\url{https://zhuanlan.zhihu.com/p/50294090}
+的``6 刚体旋转系列''.

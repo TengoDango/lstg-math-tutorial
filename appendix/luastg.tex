@@ -1,1 +1,348 @@
-\chapter{LuaSTG自带的数学函数} \label{sec:lstg-math}
+\chapter{LuaSTG自带的数学变量与函数} \label{sec:lstg-math}
+
+\section{运算符}
+
+LuaSTG使用的lua版本为luajit,
+支持的运算符与lua5.1相同.
+
+来源: 网络
+
+\begin{center}
+  \begin{xltabular}{\textwidth}{XX}
+    \toprule
+    运算符           & 说明                           \\
+    \midrule
+    {
+      $a+b$, $a-b$, $a*b$, $-a$
+    }                & {
+        加法, 减法, 乘法, 相反数
+      }                                                 \\
+    $a\mathbin{/}b$  & 浮点数除法                     \\
+    $a\mathbin{\%}b$ & {
+        $a$被$b$除的余数, 计算结果在0到$b$之间
+      }                                                 \\
+    {
+    $a\mathbin{\text{\textasciicircum}}b$
+    }                & {
+        $a$的$b$次方, 即$a^b$
+      }                                                 \\
+    {
+    $a>b$, $a<b$, $a>=b$, $a<=b$, $a==b$,
+    $a\sim=b$
+    }                & 比较两个数的大小               \\
+    {
+    $A\mathbin{\text{and}}B$,
+    $A\mathbin\text{or}B$,
+    $\mathbin{\text{not}}A$
+    }                & 逻辑运算符                     \\
+    $\#A$            & {
+        表$A$的数组长度 (只支持连续索引的数组)
+      }                                                 \\
+    $A\mathbin{..}B$ & 拼接两个字符串, 返回新的字符串 \\
+    \bottomrule
+  \end{xltabular}
+\end{center}
+
+\section{全局变量与函数}
+
+来源: \raw{doc/core}, \raw{lib/Lapi.lua},
+\raw{lib/Lmath.lua}, \raw{lib/Lscreen.lua}
+
+\begin{center}
+  \begin{xltabular}{\textwidth}{XX}
+    \toprule
+    变量/函数                                  &
+    说明                                         \\
+
+    \midrule
+    PI                                         &
+    圆周率$\pi$                                  \\
+
+    SQRT2, SQRT3                               &
+    $\sqrt2, \sqrt3$                             \\
+
+    GOLD                                       &
+    $360\degree$与黄金比例的乘积,
+    约为$137.5\degree$                           \\
+
+    int($x$)                                   &
+    向下取整                                     \\
+
+    abs($x$)                                 &
+    绝对值$|x|$                                  \\
+
+    sign($x$) &
+    计算$x$的正负性, 返回$1,-1$或者$0$ \\
+
+    max($a$, $b$, \dots), min($a$, $b$, \dots) &
+    最大值和最小值                               \\
+
+    sqrt($x$)                                  &
+    平方根$\sqrt x$                              \\
+
+    sin($x$), cos($x$), tan($x$)               &
+    三角函数                                     \\
+
+    asin($x$), acos($x$), atan($x$)            &
+    反三角函数$\arcsin,\arccos,\arctan$          \\
+
+    atan2($y$, $x$)                            &
+    计算由原点指向$(x,y)$的方位角,
+    $-180 < \cdot \le 180$           \\
+
+    hypot($x$, $y$) &
+    点$(x,y)$到原点的距离 \\
+
+    mod($a$, $b$)                              &
+    C风格的取余运算, $a$除以$b$的商向零取整
+    (截断取整) 所得的余数                        \\
+
+    BoxCheck(unit, left, right, bottom, top)   &
+    检测unit对象是否在
+    left,right,bottom,top
+    四个数确定的矩形区域内                       \\
+
+    {
+    Angle($x_1$, $y_1$, $x_2$, $y_2$) \par
+    或 Angle(unit1, unit2) \par
+    或 Angle(unit1, $x_2$, $y_2$) \par
+    或 Angle($x_1$, $y_1$, unit2)
+    }                                          &
+    计算由$(x_1,y_1)$指向$(x_2,y_2)$的方位角,
+    角度范围与atan2相同                          \\
+
+    Dist($x_1$, $y_1$, $x_2$, $y_2$)           &
+    计算点$(x_1,y_1)$与$(x_2,y_2)$的距离.
+    与Angle一样还有其他参数格式                  \\
+
+    WorldToUI($x$, $y$) &
+    从world坐标系 (\raw{SetViewMode("world")})
+    到ui坐标系 (\raw(SetViewMode("ui")))
+    的坐标转换 \\
+
+    WorldToScreen($x$, $y$) &
+    从world坐标系到屏幕坐标系的坐标转换 \\
+    \bottomrule
+  \end{xltabular}
+\end{center}
+
+\section{随机数生成}
+
+为了与replay系统适配, LuaSTG提供了一个随机数生成器ran,
+下面是它提供的随机数生成函数.
+
+如果某些情况需要你另外创建一个随机数生成器,
+可以使用Rand()函数进行创建.
+
+\begin{center}
+  \begin{xltabular}{\textwidth}{XX}
+    \toprule
+    函数 & 说明 \\
+    \midrule
+
+    ran:Int($a$, $b$)   &
+    生成$a$到$b$范围的整数, 包含$a$和$b$ \\
+
+    ran:Float($a$, $b$) &
+    生成$a$到$b$范围的浮点数             \\
+
+    ran:Sign()          &
+    生成$-1$或1                          \\
+    \bottomrule
+  \end{xltabular}
+\end{center}
+
+\section{math库}
+
+Lua语言自带的math库提供了一些数学运算函数.
+
+来源: Lua5.1参考手册
+
+\begin{center}
+  \begin{xltabular}{\textwidth}{XX}
+    \toprule
+    变量/函数 & 说明 \\
+    \midrule
+
+    math.pi &
+    圆周率 \\
+
+    math.sqrt($x$) &
+    平方根 \\
+
+    math.abs($x$) &
+    绝对值 \\
+
+    math.floor($x$) &
+    向下取整 \\
+
+    math.ceil($x$) &
+    向上取整 \\
+
+    math.max($a$, $b$, \dots), math.min($a$, $b$, \dots) &
+    最大值和最小值 \\
+
+    math.deg($x$) &
+    将弧度值$x$转换为角度值 \\
+
+    math.rad($x$) &
+    将角度值$x$转换为弧度值 \\
+
+    \st{math.random($m$, $n$)} &
+    与replay系统不兼容, 建议使用ran随机数生成器提供的方法 \\
+
+    math.sin($x$), math.cos($x$), math.tan($x$) &
+    三角函数, 传入参数为弧度值 \\
+
+    math.asin($x$), math.acos($x$), math.atan($x$) &
+    反三角函数, 返回的是弧度值 \\
+
+    math.atan2($y$, $x$) &
+    计算由原点指向$(x,y)$的方位角, 返回的是弧度值 \\
+
+    math.pow(x,y) &
+    计算$x^y$, 即运算符\textasciicircum \\
+
+    math.exp($x$) &
+    计算$e^x$ ($e$为自然对数的底) \\
+
+    math.log($x$, base) &
+    以base为底的$x$的对数 \\
+
+    math.log10($x$) &
+    以10为底$x$的对数 \\
+
+    math.sinh($x$), math.cosh($x$), math.tanh($x$) &
+    双曲函数 \\
+
+    math.modf(x) &
+    返回$x$的整数部分和小数部分 \\
+
+    math.fmod($a$, $b$) &
+    C风格的取余运算, $a$除以$b$的商向零取整
+    (截断取整) 所得的余数 \\
+
+    math.frexp($x$) &
+    返回两个数$m,e$使得$x = m\cdot2^e$,
+    其中$e$为整数, $m$的绝对值在0.5到1之间 \\
+
+    math.ldexp($m$, $e$) &
+    返回$m\cdot2^e$ \\
+    \bottomrule
+  \end{xltabular}
+\end{center}
+
+\section{位运算}
+
+Luajit提供了对32位整数进行位运算的bit库.
+
+来源: \raw{doc/luajit extension/bit.lua}
+
+\begin{center}
+  \begin{xltabular}{\textwidth}{XX}
+    \toprule
+    函数 & 说明 \\
+    \midrule
+
+    bit.tohex($x$, $n$) &
+    把$x$转换为长度为$|n|$的十六进制字符串,
+    $n>0$时采用小写字母, 否则采用大写字母 \\
+
+    bit.bnot($x$) &
+    按位取反 \\
+
+    bit.band($x_1$, $x_2$, \dots) &
+    按位与 \\
+
+    bit.bor($x_1$, $x_2$, \dots) &
+    按位或 \\
+
+    bit.bxor($x_1$, $x_2$, \dots) &
+    按位异或 \\
+
+    bit.lshift($x$, $n$) &
+    按位左移 \\
+
+    bit.rshift($x$, $n$) &
+    逻辑右移 \\
+
+    bit.arshift($x$, $n$) &
+    算术右移 \\
+
+    bit.rol($x$, $n$), bit.ror($x$, $n$) &
+    按位左旋/右旋 \\
+
+    bit.bswap($x$) &
+    字节翻转 \\
+    \bottomrule
+  \end{xltabular}
+\end{center}
+
+\section{spmath库}
+
+LuaSTG的data层提供了一个spmath库,
+详见\raw{sp/spmath.lua}.
+这里省略一些用处很小或者有bug的函数.
+
+\begin{center}
+  \begin{xltabular}{\textwidth}{XX}
+    \toprule
+    函数 & 说明 \\
+    \midrule
+
+    sp.math.subAngle($\alpha$, $\beta$) &
+    计算$\beta-\alpha$角度差,
+    返回值范围为$-180<\cdot\le180$ \\
+
+    sp.math.sum($A$) &
+    数组$A$各元素的和 \\
+
+    sp.math.circle($r$, $\alpha$, $x=0$, $y=0$) &
+    与$(x,y)$距离为$r$, 方位角为$\alpha$的坐标
+    (返回两个数值) \\
+
+    sp.math.vecmul($A$, $B$) &
+    向量的内积, $A,B$是两个数组 \\
+
+    sp.math.shuffle($A$) &
+    矩阵的转置, $A$是一个二维数组 \\
+
+    sp.math.matmul($A$, $B$, toCol1, toCol2) &
+    矩阵乘法, $A,B$为二维数组, 计算方法为:
+    若toCol1为真, 将$A$转置,
+    若toCol2为真, 将$B$转置;
+    对$A$中的各个数组与$B$中的各个数组计算内积,
+    得到乘积矩阵的各个元素.
+    也就是说, 如果$A,B$按照行主序存储,
+    那么参数应该这样填写:
+    sp.math.matmul($A$, $B$, false, true) \\
+
+    sp.math.Per3D($x$, $y$, $z$, dist) &
+    伪透视计算, $x,y,z$是要投影的坐标,
+    dist是摄像机与坐标原点的距离,
+    计算原理如下图所示. \\
+    \bottomrule
+  \end{xltabular}
+\end{center}
+
+\begin{center}
+  \begin{tikzpicture}
+    \draw[-latex] (0,0) -- (1,0) node[right] {$z$};
+    \draw[-latex] (0,0) -- (0,1) node[left] {$x$};
+
+    \draw[dashed] (0,0) -- (-4,0)
+    coordinate (0) node[left] {摄像机}
+    node[midway,below] {dist};
+    \draw (0) -- (2.5,1) node[right] {$(x,y,z)$};
+
+    \draw (-4+1,0) arc (0:9:1)
+    node[right,background] {$\alpha_x$};
+
+    \draw (0) -- (0,2) node[right] {$\alpha_0$};
+  \end{tikzpicture}
+  \begin{align*}
+    \alpha_0 = \arctan(192/\text{dist}), \\
+    x' = 192\cdot \alpha_x / \alpha_0, \\
+    y' = 192\cdot \alpha_y / \alpha_0.
+  \end{align*}
+\end{center}
